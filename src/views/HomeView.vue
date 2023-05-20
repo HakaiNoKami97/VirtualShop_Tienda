@@ -28,13 +28,18 @@
             <p class="lead text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
           </div>
         </div>
-        <div class="row">
+        <div class="row" v-if="load_nuevos_productos">
+            <div class="col-12 text-center">
+              <img src="/assets/media/idea.gif" alt="" style="width: 80px">
+            </div>
+        </div>
+        <div class="row" v-if="!load_nuevos_productos">
           <!-- product-->
           <div class="col-lg-3 col-md-4 col-6" v-for="item in nuevos_productos">
             <div class="product">
               <div class="product-image">
                 <div class="ribbon ribbon-danger" v-if="item.descuento">Oferta</div>
-                <img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/serrah-galos-494312-unsplash.jpg" alt="product"/>
+                <img class="img-fluid" :src="$url+'/obtener_portada_producto/'+item.portada" alt="product"/>
                 <div class="product-hover-overlay">
                   <a class="product-hover-overlay-link" href="detail.html"></a>
                 </div>
@@ -57,7 +62,7 @@
       <div class="container">
         <div class="row">
           <div class="col-xl-8 mx-auto text-center mb-5">
-            <h2>Spring 2018 Collection</h2>
+            <h2>Colecciòn primavera</h2>
             <p class="lead text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
           </div>
         </div>
@@ -65,7 +70,7 @@
           <div class="col-md-6 d-flex align-items-md-stretch mb-4 mb-md-0">
             <div class="d-flex align-items-center text-white dark-overlay w-100 text-center py-6 py-md-0" style="background: center center url(https://d19m59y37dris4.cloudfront.net/sell/2-0/img/photo/nordwood-themes-481980-unsplash-square.jpg) no-repeat; background-size: cover;"><a class="tile-link" href="category.html"> </a>
               <div class="card-img-overlay w-100 overlay-content">
-                <h2 class="display-2 fw-bold text-uppercase mb-0">Men </h2>
+                <h2 class="display-2 fw-bold text-uppercase mb-0">Hombres </h2>
               </div>
             </div>
           </div>
@@ -73,14 +78,14 @@
             <div class="card border-0 text-white text-center mb-4 dark-overlay"> <img class="card-img" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/photo/malvestida-magazine-458585-unsplash.jpg" alt="Ladies"><a class="tile-link" href="category.html"> </a>
               <div class="card-img-overlay d-flex align-items-center">
                 <div class="text-center w-100 overlay-content">
-                  <h2 class="display-4 fw-bold text-uppercase text-center mb-0">Ladies                                               </h2>
+                  <h2 class="display-4 fw-bold text-uppercase text-center mb-0">Mujeres                                               </h2>
                 </div>
               </div>
             </div>
             <div class="card border-0 text-white text-center  dark-overlay"> <img class="card-img" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/photo/heather-schwartz-528936-unsplash.jpg" alt="Accessories"><a class="tile-link" href="category.html"> </a>
               <div class="card-img-overlay d-flex align-items-center">
                 <div class="text-center w-100 overlay-content">
-                  <h2 class="display-4 fw-bold text-uppercase text-center mb-0">Accessories                                               </h2>
+                  <h2 class="display-4 fw-bold text-uppercase text-center mb-0">Accesorios                                           </h2>
                 </div>
               </div>
             </div>
@@ -271,22 +276,26 @@
 import HelloWorld from '@/components/HelloWorld.vue';
 import axios from 'axios';
 import currency_formatter from 'currency-formatter';
+import {init_owl_slider} from "../../public/assets/js/theme.d7b4a888";
 
 export default {
   name: 'HomeView',
   data() {
     return {
-        nuevos_productos : []
+        nuevos_productos : [],
+        load_nuevos_productos: true,
     }
   },
   methods: {
     init_nuevos_productos(){
+      this.load_nuevos_productos = true;
       axios.get(this.$url+'/obtener_nuevos_productos',{
           headers: {
               'Content-Type': 'application/json'
           }
       }).then((result)=>{
         this.nuevos_productos = result.data;
+        this.load_nuevos_productos = false;
         console.log(this.nuevos_productos);
       });
     },
@@ -299,6 +308,7 @@ export default {
   },
   beforeMount() {
     this.init_nuevos_productos();
+   
   },
 }
 </script>
