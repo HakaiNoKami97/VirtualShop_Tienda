@@ -151,8 +151,8 @@ export default {
                     if(result.data.message){
                         this.msm_error_login = result.data.message;
                     }else{
-                        /* this.$store.dispatch('saveToken',result.data.token);
-                        this.$router.push({name: 'dashboard'}); */
+                        this.$store.dispatch('saveToken',result.data.token);
+                        this.$router.push({name: 'home'});
                     }
 
                 }).catch((error)=>{
