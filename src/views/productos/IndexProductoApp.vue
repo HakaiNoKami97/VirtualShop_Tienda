@@ -36,12 +36,12 @@
 
                     </div>
 
-                    <div class="mb-3 d-flex align-items-center"><span class="d-inline-block me-2">Sort by</span>
-                        <select class="form-select w-auto border-0">
-                            <option value="orderby_0">Default</option>
-                            <option value="orderby_1">Popularity</option>
-                            <option value="orderby_2">Rating</option>
-                            <option value="orderby_3">Newest first</option>
+                    <div class="mb-3 d-flex align-items-center"><span class="d-inline-block me-2">Ordenar</span>
+                        <select class="form-select w-auto border-0" v-model="sort_by" v-on:change="setSortBy()">
+                            <option value="Defecto" selected>Defecto</option>
+                            <option value="Precio +-">Precio +-</option>
+                            <option value="Precio -+">Precio -+</option>
+                        
                         </select>
                     </div>
                 </header>
@@ -255,13 +255,15 @@
                 minRange: null,
                 maxRange: null,
                 productos: [],
+                productos_const: [],
                 currentPage: 1,
                 perPage: 12,
                 get itemsForList(){
                     return this.productos.slice(
                         (this.currentPage-1) * this.perPage, this.currentPage* this.perPage
                     )
-                }
+                },
+                sort_by: 'Defecto',
             }
         },
         mounted() {
@@ -285,6 +287,7 @@
                 }
             }).then((result)=>{
                 this.productos = result.data;
+                this.productos_const = this.productos;
                 console.log(this.productos);
             });
         },
@@ -294,6 +297,20 @@
             },
             setPerPage(item){
                 this.perPage = item;
+            },
+            setSortBy(){
+                console.log(this.sort_by);
+                if(this.sort_by == 'Defecto'){
+                  this.productos.sort((a,b)=>new Date(a.createdAt).getTime() < new Date(b.createdAt).getTime() ? 1:-1);
+                }
+
+                if(this.sort_by == 'Precio +-'){
+                    this.productos.sort((a,b)=>a.precio < b.precio ? 1:-1);
+                } 
+
+                if(this.sort_by == 'Precio -+'){
+                    this.productos.sort((a,b)=>a.precio > b.precio ? 1:-1);
+                }
             }
         },
     }
