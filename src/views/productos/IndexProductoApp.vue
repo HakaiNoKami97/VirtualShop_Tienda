@@ -37,9 +37,9 @@
                     </select>
                     </div>
                 </header>
-                <div class="row">
+                <div class="row" id="my-table">
                     <!-- product-->
-                    <div class="col-xl-4 col-6" v-for="item in productos">
+                    <div class="col-xl-4 col-6" v-for="item in itemsForList">
                     <div class="product">
                         <div class="product-image">
                              <div class="ribbon ribbon-danger" v-if="item.descuento">Oferta</div>
@@ -59,17 +59,12 @@
                    
                 </div>
                 <!-- Pagination-->
-                <nav class="d-flex justify-content-center mb-5 mt-3" aria-label="page navigation">
-                    <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">Prev</span><span class="sr-only">Previous</span></a></li>
-                    <li class="page-item active"><a class="page-link" href="#">1       </a></li>
-                    <li class="page-item"><a class="page-link" href="#">2       </a></li>
-                    <li class="page-item"><a class="page-link" href="#">3       </a></li>
-                    <li class="page-item"><a class="page-link" href="#">4       </a></li>
-                    <li class="page-item"><a class="page-link" href="#">5 </a></li>
-                    <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">Next</span><span class="sr-only">Next     </span></a></li>
-                    </ul>
-                </nav>
+                <b-pagination
+                v-model="currentPage"
+                :total-rows="productos.length"
+                :per-page="perPage"
+                aria-controls="my-table"
+                ></b-pagination>
                 </div>
                 <!-- / Grid End-->
                 <!-- Sidebar-->
@@ -251,7 +246,14 @@
                 },
                 minRange: null,
                 maxRange: null,
-                productos: []
+                productos: [],
+                currentPage: 1,
+                perPage: 12,
+                get itemsForList(){
+                    return this.productos.slice(
+                        (this.currentPage-1) * this.perPage, this.currentPage* this.perPage
+                    )
+                }
             }
         },
         mounted() {
