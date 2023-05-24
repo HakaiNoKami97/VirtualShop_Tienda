@@ -25,16 +25,24 @@
                 <div class="products-grid col-xl-9 col-lg-8 order-lg-2">
                 <header class="product-grid-header">
                     <div class="me-3 mb-3">
-                    Showing <strong>1-12 </strong>of <strong>158 </strong>products</div>
-                    <div class="me-3 mb-3"><span class="me-2">Show</span><a class="product-grid-header-show active" href="#">12    </a><a class="product-grid-header-show " href="#">24    </a><a class="product-grid-header-show " href="#">All    </a>
+                        Mostrando <strong>{{currentPage}}-<span v-if="currentPage*perPage > productos.length">{{productos.length}}</span><span v-if="currentPage*perPage <= productos.length">{{currentPage*perPage}}</span>
+                        </strong> de <strong>{{productos.length}} </strong>productos
                     </div>
+
+                    <div class="me-3 mb-3">
+                        <span class="me-2">Por página</span>
+                        <a class="product-grid-header-show" v-bind:class="{'active': perPage == 12}" style="cursor:pointer" v-on:click="setPerPage(12)">12    </a>
+                        <a class="product-grid-header-show" v-bind:class="{'active': perPage == 18}" style="cursor:pointer" v-on:click="setPerPage(18)">18   </a>
+
+                    </div>
+
                     <div class="mb-3 d-flex align-items-center"><span class="d-inline-block me-2">Sort by</span>
-                    <select class="form-select w-auto border-0">
-                        <option value="orderby_0">Default</option>
-                        <option value="orderby_1">Popularity</option>
-                        <option value="orderby_2">Rating</option>
-                        <option value="orderby_3">Newest first</option>
-                    </select>
+                        <select class="form-select w-auto border-0">
+                            <option value="orderby_0">Default</option>
+                            <option value="orderby_1">Popularity</option>
+                            <option value="orderby_2">Rating</option>
+                            <option value="orderby_3">Newest first</option>
+                        </select>
                     </div>
                 </header>
                 <div class="row" id="my-table">
@@ -283,6 +291,9 @@
         methods: {
             convertCurrency(number){
                 return currency_formatter.format(number, { code: 'USD' });
+            },
+            setPerPage(item){
+                this.perPage = item;
             }
         },
     }
