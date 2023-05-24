@@ -97,7 +97,7 @@
       <div class="container">
         <div class="row">
           <div class="col-xl-8 mx-auto text-center mb-5">
-            <h2 class="text-uppercase">Your favourites</h2>
+            <h2 class="text-uppercase">Productos recomendados</h2>
             <p class="lead text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
           </div>
           <!-- Products Slider-->
@@ -276,8 +276,8 @@
 import HelloWorld from '@/components/HelloWorld.vue';
 import axios from 'axios';
 import currency_formatter from 'currency-formatter';
-import {init_owl_slider} from "../../public/assets/js/theme.d7b4a888";
-
+import { init_carousel } from '../../public/assets/js/theme.d7b4a888';
+ 
 export default {
   name: 'HomeView',
   data() {
@@ -308,7 +308,7 @@ export default {
   },
   beforeMount() {
     this.init_nuevos_productos();
-   
+    init_carousel.init();
   },
 }
 </script>
