@@ -296,10 +296,10 @@
                     <div class="sidebar-block px-3 px-lg-0 me-lg-4"><a class="d-lg-none block-toggler" data-bs-toggle="collapse" href="#priceFilterMenu" aria-expanded="false" aria-controls="priceFilterMenu">Filter by price</a>
                         <div class="expand-lg collapse" id="priceFilterMenu">
                         <h6 class="sidebar-heading d-none d-lg-block">Price  </h6>
-                        <div class="mt-4 mt-lg-0" id="slider-snap"> </div>
+                        <div class="mt-4 mt-lg-0" id="slider-snap" ref="slider"> </div>
                         <div class="nouislider-values">
-                            <div class="min">From $<span id="slider-snap-value-lower"></span></div>
-                            <div class="max">To $<span id="slider-snap-value-upper"></span></div>
+                            <div class="min">From <span id="slider-snap-value-lower">{{convertCurrency(minRange)}}</span></div>
+                            <div class="max">To <span id="slider-snap-value-upper">{{convertCurrency(maxRange)}}</span></div>
                             <input class="slider-snap-input" type="hidden" name="pricefrom" id="slider-snap-input-lower" value="40">
                             <input class="slider-snap-input" type="hidden" name="priceto" id="slider-snap-input-upper" value="110">
                         </div>
@@ -408,8 +408,65 @@
     </div>
 </template>
 
-<style>
+<script>
 
+    import noUiSlider from '../../../public/assets/js/nouislider.min.js';
+    import currency_formatter from 'currency-formatter';
+
+    export default {
+        data() {
+            return {
+                slider: {
+                    starMin: 25,
+                    starMax: 100,
+                    min: 0,
+                    max: 100,
+                    start: 40,
+                    step: 1
+                },
+                minRange: null,
+                maxRange: null,
+            }
+        },
+        mounted() {
+            noUiSlider.create(this.$refs.slider, {
+                start: [this.slider.starMin, this.slider.starMax],
+                step: this.slider.step,
+                range: {
+                    'min': this.slider.min,
+                    'max': this.slider.max
+                }
+            });
+
+            this.$refs.slider.noUiSlider.on('update',(values, handle) => {
+                this[handle ? 'maxRange' : 'minRange'] = parseInt(values[handle]);
+            }); 
+        },  
+        methods: {
+            convertCurrency(number){
+                return currency_formatter.format(number, { code: 'USD' });
+            }
+        },
+    }
+</script>
+
+
+<style>
+.noUi-horizontal .noUi-handle {
+    background:#005f96 !important;
+    border-radius: 5px !important;
+}
+.noUi-horizontal .noUi-handle {
+    width: 0.5rem !important;
+    height: 1rem !important;
+    
+   
+}
+.noUi-horizontal {
+    height: 7px !important;
+    background: #787878 !important;
+     border: none !important;
+}
 .sidebar-menu-item[data-bs-toggle="collapse"]::before{
     display: none !important;
 }
