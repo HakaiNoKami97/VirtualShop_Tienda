@@ -262,10 +262,10 @@
         data() {
             return {
                 slider: {
-                    starMin: 25,
-                    starMax: 100,
+                    starMin: 0,
+                    starMax: 2000,
                     min: 0,
-                    max: 100,
+                    max: 2000,
                     start: 40,
                     step: 1
                 },
@@ -297,9 +297,10 @@
             });
 
             this.$refs.slider.noUiSlider.on('update',(values, handle) => {
-               
+                
                 this[handle ? 'maxRange' : 'minRange'] = parseInt(values[handle]);
             }); 
+            
         },  
         beforeMount() {
             console.log(this.$route.query.subcategoria);
@@ -382,6 +383,13 @@
                 if(!this.$route.query.subcategoria && !this.$route.query.categoria){  
                     this.productos = this.productos_const; 
                 }
+            },
+            minRange: function(value){
+                this.productos = this.productos_const.filter(item=>item.precio >= value);
+            },
+            maxRange: function(value){
+               
+                this.productos = this.productos_const.filter(item=>item.precio <= value);
             }
         }
     }
