@@ -61,15 +61,15 @@
           </div>
           <div class="col-lg-5 ps-lg-4 order-1 order-lg-2">
             <ul class="breadcrumb undefined">
-              <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-              <li class="breadcrumb-item"><a href="category.html">Tops and Jackets</a></li>
-              <li class="breadcrumb-item active">Modern Jacket    </li>
+              <li class="breadcrumb-item"><router-link to="/">Inicio</router-link></li>
+              <li class="breadcrumb-item"><router-link to="/shop">Tienda</router-link></li>
+              <li class="breadcrumb-item"><router-link :to="{name: 'shop',query: {categoria:producto.categoria}}">{{producto.categoria}}</router-link></li>
             </ul>
-            <h1 class="mb-4">Modern Jacket</h1>
+            <h4 class="mb-4">{{producto.titulo}}</h4>
             <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-sm-between mb-4">
               <ul class="list-inline mb-2 mb-sm-0">
-                <li class="list-inline-item h4 fw-light mb-0">$65.00</li>
-                <li class="list-inline-item text-muted fw-light"> 
+                <li class="list-inline-item h4 fw-light mb-0">{{convertCurrency(producto.precio)}}</li>
+                <li class="list-inline-item text-muted fw-light" v-if="producto.descuento"> 
                   <del>$90.00</del>
                 </li>
               </ul>
@@ -85,20 +85,15 @@
                 </ul><span class="text-muted text-uppercase text-sm">25 reviews</span>
               </div>
             </div>
-            <p class="mb-4 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco</p>
+            <p class="mb-4 text-muted">{{producto.extracto}}</p>
             <form action="#">
               <div class="row">
                 <div class="col-sm-6 col-lg-12 detail-option mb-3">
-                  <h6 class="detail-option-heading">Size <span>(required)</span></h6>
-                  <label class="btn btn-sm btn-outline-secondary detail-option-btn-label" for="size_0"> Small
-                    <input class="input-invisible" type="radio" name="size" value="value_0" id="size_0" required>
+                  <h6 class="detail-option-heading">{{producto.str_variedad}}</h6>
+                  <label class="btn btn-sm btn-outline-secondary detail-option-btn-label" :for="'variedad_'+item._id" v-for="item in variedades"> {{item.variedad}}
+                    <input class="input-invisible" type="radio" name="size" value="value_0" :id="'variedad_'+item._id" required>
                   </label>
-                  <label class="btn btn-sm btn-outline-secondary detail-option-btn-label" for="size_1"> Medium
-                    <input class="input-invisible" type="radio" name="size" value="value_1" id="size_1" required>
-                  </label>
-                  <label class="btn btn-sm btn-outline-secondary detail-option-btn-label" for="size_2"> Large
-                    <input class="input-invisible" type="radio" name="size" value="value_2" id="size_2" required>
-                  </label>
+                  
                 </div>
                
                 <!-- <div class="col-12 detail-option mb-3">
@@ -123,13 +118,13 @@
                   </ul>
                 </div> -->
                 <div class="col-12 col-lg-6 detail-option mb-5">
-                  <label class="detail-option-heading fw-bold">Items <span>(required)</span></label>
+                  <label class="detail-option-heading fw-bold">Cantidad</label>
                   <input class="form-control detail-quantity" name="items" type="number" value="1">
                 </div>
               </div>
               <ul class="list-inline">
                 <li class="list-inline-item">
-                  <button class="btn btn-dark btn-lg mb-1" type="submit"> <i class="fa fa-shopping-cart me-2"></i>Add to Cart</button>
+                  <button class="btn btn-dark btn-lg mb-1" type="submit">Agregar al carrito</button>
                 </li>
                 <!-- <li class="list-inline-item"><a class="btn btn-outline-secondary mb-1" href="#"> <i class="far fa-heart me-2"></i>Add to wishlist</a></li> -->
               </ul>
@@ -141,36 +136,30 @@
     <section class="mt-5">
       <div class="container">
         <ul class="nav nav-tabs flex-column flex-sm-row" role="tablist">
-          <li class="nav-item"><a class="nav-link detail-nav-link active" data-bs-toggle="tab" href="#description" role="tab">Description</a></li>
-          <li class="nav-item"><a class="nav-link detail-nav-link" data-bs-toggle="tab" href="#additional-information" role="tab">Additional Information</a></li>
+
+          <li class="nav-item"><a class="nav-link detail-nav-link active" data-bs-toggle="tab" href="#additional-information" role="tab">Información adicional</a></li>
           <li class="nav-item"><a class="nav-link detail-nav-link" data-bs-toggle="tab" href="#reviews" role="tab">Reviews</a></li>
         </ul>
         <div class="tab-content py-4">
-          <div class="tab-pane active px-3" id="description" role="tabpanel">
-            <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. LOLUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. LOLDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. LOLUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. LOLDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-          </div>
-          <div class="tab-pane" id="additional-information" role="tabpanel">
+        
+          <div class="tab-pane active" id="additional-information" role="tabpanel">
             <div class="row">
               <div class="col-lg-6">
                 <table class="table text-sm">
                   <tbody>
                     <tr>
-                      <th class="text-uppercase fw-normal border-0">Product #</th>
-                      <td class="text-muted border-0">Lorem ipsum dolor sit amet</td>
+                      <th class="text-uppercase fw-normal border-0"><b>Producto</b></th>
+                      <td class="text-muted border-0" :title="producto.titulo">{{producto.titulo.substr(0,30)}}...</td>
                     </tr>
                     <tr>
-                      <th class="text-uppercase fw-normal ">Available packaging</th>
-                      <td class="text-muted ">LOLDuis aute irure dolor in reprehenderit</td>
+                      <th class="text-uppercase fw-normal "><b>Categoria</b></th>
+                      <td class="text-muted ">{{producto.categoria}}</td>
                     </tr>
                     <tr>
-                      <th class="text-uppercase fw-normal ">Weight</th>
-                      <td class="text-muted ">dolor sit amet</td>
+                      <th class="text-uppercase fw-normal "><b>Subcategoria</b></th>
+                      <td class="text-muted ">{{producto.subcategoria}}</td>
                     </tr>
-                    <tr>
-                      <th class="text-uppercase fw-normal ">Sunt in culpa qui</th>
-                      <td class="text-muted ">Lorem ipsum dolor sit amet</td>
-                    </tr>
+
                   </tbody>
                 </table>
               </div>
@@ -178,21 +167,19 @@
                 <table class="table text-sm">
                   <tbody>
                     <tr>
-                      <th class="text-uppercase fw-normal border-0">Weight</th>
-                      <td class="text-muted border-0">dolor sit amet                                </td>
+                      <th class="text-uppercase fw-normal "><b>Variedad</b></th>
+                      <td class="text-muted ">{{producto.str_variedad}}</td>
                     </tr>
                     <tr>
-                      <th class="text-uppercase fw-normal ">Sunt in culpa qui</th>
-                      <td class="text-muted ">Lorem ipsum dolor sit amet                                </td>
+                      <th class="text-uppercase fw-normal border-0"><b>Código</b></th>
+                      <td class="text-muted border-0">{{producto._id}}</td>
                     </tr>
                     <tr>
-                      <th class="text-uppercase fw-normal ">Product #</th>
-                      <td class="text-muted ">Lorem ipsum dolor sit amet                                </td>
+                      <th class="text-uppercase fw-normal "><b>Fecha</b></th>
+                      <td class="text-muted ">{{convertDate(producto.createdAt)}}</td>
                     </tr>
-                    <tr>
-                      <th class="text-uppercase fw-normal ">Available packaging</th>
-                      <td class="text-muted ">LOLDuis aute irure dolor in reprehenderit                                </td>
-                    </tr>
+                   
+                 
                   </tbody>
                 </table>
               </div>
@@ -387,27 +374,49 @@
     </div>
 </template>
 
+<style>
+.detail-nav-link.nav-link.active, .detail-nav-link.nav-link:hover, .detail-nav-link.nav-link:focus {
+    color: #ffffff !important;
+    border-color: #fff #fff #343a40 !important;
+    background: #005f96 !important;
+}
+</style>
+
 <script>
 import { init_carousel } from '../../../public/assets/js/theme.d7b4a888.js'; 
+import currency_formatter from 'currency-formatter';
 import axios from 'axios';
+import moment from 'moment';
+
+
 export default {
     name: 'ShowProductoApp',
     data() {
       return {
-        galeria : []
+        galeria : [],
+        variedades: [],
+        producto: {}
       }
     },
     methods: {
+      convertCurrency(number){
+          return currency_formatter.format(number, { code: 'USD' });
+      },
       init_data(){
         axios.get(this.$url+'/obtener_producto_slug/'+this.$route.params.slug,{
             headers: {
                 'Content-Type': 'application/json'
             }
         }).then((result)=>{
-          
+          console.log(result);
+          this.producto = result.data.producto;
+          this.variedades = result.data.variedades;
           this.galeria = result.data.galeria;
           console.log(this.galeria);
         });
+      },
+      convertDate(date){
+        return moment(date).format('YYYY-MM-DD');
       }
     },
     beforeMount() {
