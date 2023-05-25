@@ -328,21 +328,25 @@ export default {
         this.$store.dispatch('logout');
         if(this.$route.path !== '/') this.$router.push({name: 'home'});
         /* window.location.reload(); */
+        this.carrito = [];
+        this.carrito_length = 0;
     },
     init_carrito(){
-      axios.get(this.$url+'/obtener_carrito_cliente',{
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': this.$store.state.token
+      if(this.$store.state.token != null){
+        axios.get(this.$url+'/obtener_carrito_cliente',{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': this.$store.state.token
+            }
+        }).then((result)=>{
+          this.carrito_length = result.data.carrito_general.length;
+          for(var item of result.data.carrito_general){
+            let subtotal = item.producto.precio * item.cantidad;
+            this.total = this.total+ subtotal;
           }
-      }).then((result)=>{
-        this.carrito_length = result.data.carrito_general.length;
-        for(var item of result.data.carrito_general){
-          let subtotal = item.producto.precio * item.cantidad;
-          this.total = this.total+ subtotal;
-        }
-        this.carrito = result.data.carrito;
-      });
+          this.carrito = result.data.carrito;
+        });
+      }
     },
   click_event(){
       this.$socket.emit('emit_method', 'Hola socket');
@@ -350,13 +354,14 @@ export default {
   },
 
   created() {
-    this.sockets.subscribe('semit_method', (data) => {
-       console.log(data);
+    this.sockets.subscribe('listen_cart', (data) => {
+        this.init_carrito();
+        this.user = JSON.parse(this.$store.state.user);
     });
   },  
   
   beforeMount() {
-    this.init_carrito();
+   this.init_carrito();
     
   },
 
