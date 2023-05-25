@@ -180,32 +180,32 @@
                     </form>
                     </div>
                     </div>
-                    <div class="sidebar-block px-3 px-lg-0 me-lg-4"> <a class="d-lg-none block-toggler" data-bs-toggle="collapse" href="#sizeFilterMenu" aria-expanded="false" aria-controls="sizeFilterMenu">Filter by size</a>
+                    <div class="sidebar-block px-3 px-lg-0 me-lg-4"> <a class="d-lg-none block-toggler" data-bs-toggle="collapse" href="#sizeFilterMenu" aria-expanded="false" aria-controls="sizeFilterMenu">Tallas</a>
                         <!-- Size filter menu-->
                         <div class="expand-lg collapse" id="sizeFilterMenu"> 
-                        <h6 class="sidebar-heading d-none d-lg-block">Size </h6>
+                        <h6 class="sidebar-heading d-none d-lg-block">Tallas </h6>
                         <form class="mt-4 mt-lg-0" action="#">  
                             <div class="mb-1">
                             <div class="form-check">
-                                <input class="form-check-input" id="size0" type="radio" name="size" checked>
+                                <input class="form-check-input" id="size0" type="radio" value="Small" name="size" v-on:change="selectedSizes($event)">
                                 <label class="form-check-label" for="size0">Small</label>
                             </div>
                             </div>
                             <div class="mb-1">
                             <div class="form-check">
-                                <input class="form-check-input" id="size1" type="radio" name="size">
+                                <input class="form-check-input" id="size1" type="radio" value="Medium" name="size" v-on:change="selectedSizes($event)">
                                 <label class="form-check-label" for="size1">Medium</label>
                             </div>
                             </div>
                             <div class="mb-1">
                             <div class="form-check">
-                                <input class="form-check-input" id="size2" type="radio" name="size">
+                                <input class="form-check-input" id="size2" type="radio" value="Large" name="size" v-on:change="selectedSizes($event)">
                                 <label class="form-check-label" for="size2">Large</label>
                             </div>
                             </div>
                             <div class="mb-1">
                             <div class="form-check">
-                                <input class="form-check-input" id="size3" type="checkbox" value="X-Large" name="size" v-on:change="selectedColor($event)">
+                                <input class="form-check-input" id="size3" type="radio" value="X-Large" name="size" v-on:change="selectedSizes($event)">
                                 <label class="form-check-label" for="size3">X-Large</label>
                             </div>
                             </div>
@@ -380,6 +380,9 @@
             },
             selectedColor(value){
                 this.productos = this.productos_const.filter(item=>item.variedades.some(subitem=>subitem.variedad == value));
+            }
+            selectedSizes(event){
+                this.productos = this.productos_const.filter(item=>item.variedades.some(subitem=>subitem.variedad == event.target.value));
             }
         },
         watch: {
