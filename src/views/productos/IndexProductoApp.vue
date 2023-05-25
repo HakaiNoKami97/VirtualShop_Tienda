@@ -109,7 +109,7 @@
                                         <div class="collapse" :id="'subcategories_'+index">
                                             <div class="nav nav-pills flex-column ms-3">
                                              
-                                                <a style="cursor:pointer" class="nav-link mb-2" v-for="subitem in item.subcategorias">{{subitem.titulo}}</a>
+                                                <a style="cursor:pointer" class="nav-link mb-2" v-for="subitem in item.subcategorias" v-on:click="redirectSubcategoria(subitem.titulo)">{{subitem.titulo}}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -281,7 +281,7 @@
             }); 
         },  
         beforeMount() {
-            
+            console.log(this.$route.query.subcategoria);
             axios.get(this.$url+'/obtener_productos_shop',{
                 headers: {
                     'Content-Type': 'application/json'
@@ -289,6 +289,10 @@
             }).then((result)=>{
                 this.productos = result.data;
                 this.productos_const = this.productos;
+
+                if(this.$route.query.subcategoria){
+                    this.initProductosSubcategoria();
+                }
 
                 console.log(this.productos);
             });
@@ -325,6 +329,14 @@
                     console.log(this.categorias);
                 });
             },
+            redirectSubcategoria(item){
+                this.$router.push({name:'shop', query: {subcategoria: item}});
+                this.initProductosSubcategoria();
+            },
+            initProductosSubcategoria(){
+               console.log(this.$route.query.subcategoria);
+               this.productos = this.productos_const.filter(item=>item.subcategoria== this.$route.query.subcategoria );
+            }
         },
     }
 </script>
