@@ -130,9 +130,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="sidebar-block px-3 px-lg-0 me-lg-4"><a class="d-lg-none block-toggler" data-bs-toggle="collapse" href="#priceFilterMenu" aria-expanded="false" aria-controls="priceFilterMenu">Filter by price</a>
+                    <div class="sidebar-block px-3 px-lg-0 me-lg-4"><a class="d-lg-none block-toggler" data-bs-toggle="collapse" href="#priceFilterMenu" aria-expanded="false" aria-controls="priceFilterMenu">Precios</a>
                         <div class="expand-lg collapse" id="priceFilterMenu">
-                        <h6 class="sidebar-heading d-none d-lg-block">Price  </h6>
+                        <h6 class="sidebar-heading d-none d-lg-block">Precios  </h6>
                         <div class="mt-4 mt-lg-0" id="slider-snap" ref="slider"> </div>
                         <div class="nouislider-values">
                             <div class="min">From <span id="slider-snap-value-lower">{{convertCurrency(minRange)}}</span></div>
@@ -258,6 +258,7 @@
     import axios from 'axios';
 
     export default {
+       
         data() {
             return {
                 slider: {
@@ -296,6 +297,7 @@
             });
 
             this.$refs.slider.noUiSlider.on('update',(values, handle) => {
+               
                 this[handle ? 'maxRange' : 'minRange'] = parseInt(values[handle]);
             }); 
         },  
@@ -316,13 +318,11 @@
                     this.initProductosCategoria();
                 }
 
-                console.log(this.productos);
+               
             });
             this.init_categorias();
         },
-        created() {
-          
-        },
+     
         methods: {
             convertCurrency(number){
                 return currency_formatter.format(number, { code: 'USD' });
@@ -353,6 +353,7 @@
                     this.categorias = result.data;
                     if(this.$route.query.subcategoria){
                         this.categoria_activa = this.categorias.filter(item=>item.subcategorias.some(subcat=>subcat.titulo == this.$route.query.subcategoria))[0].categoria._id;
+                        this.subcategoria_activa = this.$route.query.subcategoria;
                     }
                     console.log(this.categorias);
                 });
@@ -376,6 +377,13 @@
                this.productos = this.productos_const.filter(item=>item.categoria== this.$route.query.categoria );
             },
         },
+        watch: {
+            $route (to,from){
+                if(!this.$route.query.subcategoria && !this.$route.query.categoria){  
+                    this.productos = this.productos_const; 
+                }
+            }
+        }
     }
 </script>
 
