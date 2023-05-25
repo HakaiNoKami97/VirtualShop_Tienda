@@ -272,6 +272,7 @@
         <div class="row">
           <!-- product-->
           <div class="col-lg-2 col-md-4 col-6" v-for="item in productos_relaciones">
+            <router-link :to="{name: 'show-producto', params:{slug: item.slug}}">
             <div class="product">
               <div class="product-image">
                 <div class="ribbon ribbon-danger" v-if="item.descuento">Oferta</div>
@@ -288,6 +289,7 @@
                 <span class="text-muted">{{convertCurrency(item.precio)}}</span>
               </div>
             </div>
+            </router-link>
           </div>
         
         </div>

@@ -300,7 +300,11 @@
         <!-- /Fullscreen search area-->
     </header>
   </template>
-  
+  <style>
+    .navbar-light .navbar-nav .nav-link, .navbar-hover-light:hover .navbar-nav .nav-link, .navbar-fixed-light.fixed-top .navbar-nav .nav-link{
+      color: rgb(255 255 255) !important;
+    }
+  </style>
   <script>
   export default {
     name: 'Header',

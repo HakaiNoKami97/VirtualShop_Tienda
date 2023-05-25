@@ -36,22 +36,24 @@
         <div class="row" v-if="!load_nuevos_productos">
           <!-- product-->
           <div class="col-lg-3 col-md-4 col-6" v-for="item in nuevos_productos">
-            <div class="product">
-              <div class="product-image">
-                <div class="ribbon ribbon-danger" v-if="item.descuento">Oferta</div>
-                <img class="img-fluid" :src="$url+'/obtener_portada_producto/'+item.portada" alt="product"/>
-                <div class="product-hover-overlay">
-                  <a class="product-hover-overlay-link" href="detail.html"></a>
+            <router-link :to="{name: 'show-producto', params:{slug: item.slug}}">
+              <div class="product">
+                <div class="product-image">
+                  <div class="ribbon ribbon-danger" v-if="item.descuento">Oferta</div>
+                  <img class="img-fluid" :src="$url+'/obtener_portada_producto/'+item.portada" alt="product"/>
+                  <div class="product-hover-overlay">
+                    <a class="product-hover-overlay-link" href="detail.html"></a>
+                  </div>
+                </div>
+                <div class="py-2">
+                  <p class="text-muted text-sm mb-1">{{item.categoria}}</p>
+                  <h3 class="h6 text-uppercase mb-1">
+                    <a class="text-dark" href="detail.html">{{item.titulo}}</a>
+                  </h3>
+                  <span class="text-muted">{{convertCurrency(item.precio)}}</span>
                 </div>
               </div>
-              <div class="py-2">
-                <p class="text-muted text-sm mb-1">{{item.categoria}}</p>
-                <h3 class="h6 text-uppercase mb-1">
-                  <a class="text-dark" href="detail.html">{{item.titulo}}</a>
-                </h3>
-                <span class="text-muted">{{convertCurrency(item.precio)}}</span>
-              </div>
-            </div>
+            </router-link>
           </div>
           <!-- /product-->
          
