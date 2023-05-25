@@ -149,7 +149,7 @@
                   <tbody>
                     <tr>
                       <th class="text-uppercase fw-normal border-0"><b>Producto</b></th>
-                      <td class="text-muted border-0" :title="producto.titulo">{{producto.titulo.substr(0,30)}}...</td>
+                      <td class="text-muted border-0" v-if="producto.titulo" :title="producto.titulo">{{producto.titulo.substr(0,30)}}...</td>
                     </tr>
                     <tr>
                       <th class="text-uppercase fw-normal "><b>Categoria</b></th>
@@ -271,103 +271,25 @@
         </header>
         <div class="row">
           <!-- product-->
-          <div class="col-lg-2 col-md-4 col-6">
+          <div class="col-lg-2 col-md-4 col-6" v-for="item in productos_relaciones">
             <div class="product">
               <div class="product-image">
-                <div class="ribbon ribbon-info">Fresh</div><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/serrah-galos-494312-unsplash.jpg" alt="product"/>
-                <div class="product-hover-overlay"><a class="product-hover-overlay-link" href="detail.html"></a>
-                  <div class="product-hover-overlay-buttons"><a class="btn btn-dark btn-buy" href="detail.html"><i class="fa-search fa"></i><span class="btn-buy-label ms-2">View</span></a>
-                  </div>
+                <div class="ribbon ribbon-danger" v-if="item.descuento">Oferta</div>
+                <img class="img-fluid" :src="$url+'/obtener_portada_producto/'+item.portada" alt="product"/>
+                <div class="product-hover-overlay">
+                  <a class="product-hover-overlay-link" href="detail.html"></a>
                 </div>
               </div>
               <div class="py-2">
-                <p class="text-muted text-sm mb-1">Jackets</p>
-                <h3 class="h6 text-uppercase mb-1"><a class="text-dark" href="detail.html">White Tee</a></h3><span class="text-muted">$40.00</span>
+                <p class="text-muted text-sm mb-1">{{item.categoria}}</p>
+                <h3 class="h6 text-uppercase mb-1" style="text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" :title="item.titulo">
+                  <a class="text-dark" href="detail.html">{{item.titulo}}</a>
+                </h3>
+                <span class="text-muted">{{convertCurrency(item.precio)}}</span>
               </div>
             </div>
           </div>
-          <!-- /product-->
-          <!-- product-->
-          <div class="col-lg-2 col-md-4 col-6">
-            <div class="product">
-              <div class="product-image"><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/kyle-loftus-590881-unsplash.jpg" alt="product"/>
-                <div class="product-hover-overlay"><a class="product-hover-overlay-link" href="detail.html"></a>
-                  <div class="product-hover-overlay-buttons"><a class="btn btn-dark btn-buy" href="detail.html"><i class="fa-search fa"></i><span class="btn-buy-label ms-2">View</span></a>
-                  </div>
-                </div>
-              </div>
-              <div class="py-2">
-                <p class="text-muted text-sm mb-1">Denim</p>
-                <h3 class="h6 text-uppercase mb-1"><a class="text-dark" href="detail.html">Black blouse</a></h3><span class="text-muted">$40.00</span>
-              </div>
-            </div>
-          </div>
-          <!-- /product-->
-          <!-- product-->
-          <div class="col-lg-2 col-md-4 col-6">
-            <div class="product">
-              <div class="product-image">
-                <div class="ribbon ribbon-primary">Sale</div><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/kyle-loftus-596319-unsplash.jpg" alt="product"/>
-                <div class="product-hover-overlay"><a class="product-hover-overlay-link" href="detail.html"></a>
-                  <div class="product-hover-overlay-buttons"><a class="btn btn-dark btn-buy" href="detail.html"><i class="fa-search fa"></i><span class="btn-buy-label ms-2">View</span></a>
-                  </div>
-                </div>
-              </div>
-              <div class="py-2">
-                <p class="text-muted text-sm mb-1">Accessories</p>
-                <h3 class="h6 text-uppercase mb-1"><a class="text-dark" href="detail.html">College jacket</a></h3><span class="text-muted">$40.00</span>
-              </div>
-            </div>
-          </div>
-          <!-- /product-->
-          <!-- product-->
-          <div class="col-lg-2 col-md-4 col-6">
-            <div class="product">
-              <div class="product-image"><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/ethan-haddox-484912-unsplash.jpg" alt="product"/>
-                <div class="product-hover-overlay"><a class="product-hover-overlay-link" href="detail.html"></a>
-                  <div class="product-hover-overlay-buttons"><a class="btn btn-dark btn-buy" href="detail.html"><i class="fa-search fa"></i><span class="btn-buy-label ms-2">View</span></a>
-                  </div>
-                </div>
-              </div>
-              <div class="py-2">
-                <p class="text-muted text-sm mb-1">Denim</p>
-                <h3 class="h6 text-uppercase mb-1"><a class="text-dark" href="detail.html">Carrot-fit jeans</a></h3><span class="text-muted">$40.00</span>
-              </div>
-            </div>
-          </div>
-          <!-- /product-->
-          <!-- product-->
-          <div class="col-lg-2 col-md-4 col-6">
-            <div class="product">
-              <div class="product-image"><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/serrah-galos-494231-unsplash.jpg" alt="product"/>
-                <div class="product-hover-overlay"><a class="product-hover-overlay-link" href="detail.html"></a>
-                  <div class="product-hover-overlay-buttons"><a class="btn btn-dark btn-buy" href="detail.html"><i class="fa-search fa"></i><span class="btn-buy-label ms-2">View</span></a>
-                  </div>
-                </div>
-              </div>
-              <div class="py-2">
-                <p class="text-muted text-sm mb-1">Jackets</p>
-                <h3 class="h6 text-uppercase mb-1"><a class="text-dark" href="detail.html">Striped T-Shirt</a></h3><span class="text-muted">$40.00</span>
-              </div>
-            </div>
-          </div>
-          <!-- /product-->
-          <!-- product-->
-          <div class="col-lg-2 col-md-4 col-6">
-            <div class="product">
-              <div class="product-image"><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/averie-woodard-319832-unsplash.jpg" alt="product"/>
-                <div class="product-hover-overlay"><a class="product-hover-overlay-link" href="detail.html"></a>
-                  <div class="product-hover-overlay-buttons"><a class="btn btn-dark btn-buy" href="detail.html"><i class="fa-search fa"></i><span class="btn-buy-label ms-2">View</span></a>
-                  </div>
-                </div>
-              </div>
-              <div class="py-2">
-                <p class="text-muted text-sm mb-1">Shirts</p>
-                <h3 class="h6 text-uppercase mb-1"><a class="text-dark" href="detail.html">Short top</a></h3><span class="text-muted">$40.00</span>
-              </div>
-            </div>
-          </div>
-          <!-- /product-->
+        
         </div>
       </div>
     </section>  
@@ -395,7 +317,8 @@ export default {
       return {
         galeria : [],
         variedades: [],
-        producto: {}
+        producto: {},
+        productos_relaciones: [],
       }
     },
     methods: {
@@ -408,11 +331,20 @@ export default {
                 'Content-Type': 'application/json'
             }
         }).then((result)=>{
-          console.log(result);
           this.producto = result.data.producto;
           this.variedades = result.data.variedades;
           this.galeria = result.data.galeria;
+          this.init_productos_relacionados(this.producto.categoria);
           console.log(this.galeria);
+        });
+      },
+      init_productos_relacionados(categoria){
+        axios.get(this.$url+'/obtener_producto_categoria/'+categoria,{
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((result)=>{
+          this.productos_relaciones = result.data.productos;
         });
       },
       convertDate(date){
