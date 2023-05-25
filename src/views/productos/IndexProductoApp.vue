@@ -205,34 +205,34 @@
                             </div>
                             <div class="mb-1">
                             <div class="form-check">
-                                <input class="form-check-input" id="size3" type="radio" name="size">
+                                <input class="form-check-input" id="size3" type="checkbox" value="X-Large" name="size" v-on:change="selectedColor($event)">
                                 <label class="form-check-label" for="size3">X-Large</label>
                             </div>
                             </div>
                         </form>
                         </div>
                     </div>
-                    <div class="sidebar-block px-3 px-lg-0 me-lg-4"><a class="d-lg-none block-toggler" data-bs-toggle="collapse" href="#colourFilterMenu" aria-expanded="false" aria-controls="colourFilterMenu">Filter by colour</a>
+                    <div class="sidebar-block px-3 px-lg-0 me-lg-4"><a class="d-lg-none block-toggler" data-bs-toggle="collapse" href="#colourFilterMenu" aria-expanded="false" aria-controls="colourFilterMenu">Colores</a>
                         <!-- Size filter menu-->
                         <div class="expand-lg collapse" id="colourFilterMenu">
-                        <h6 class="sidebar-heading d-none d-lg-block">Colour </h6>
+                        <h6 class="sidebar-heading d-none d-lg-block">Colores </h6>
                         <div class="mt-4 mt-lg-0"> 
                             <ul class="list-inline mb-0 colours-wrapper">
                             <li class="list-inline-item">
-                                <label class="btn-colour" for="colour_sidebar_Blue" style="background-color: #668cb9" data-allow-multiple> </label>
-                                <input class="input-invisible" type="checkbox" name="colour" value="value_sidebar_Blue" id="colour_sidebar_Blue">
+                                <label class="btn-colour" for="colour_sidebar_Blue" style="background-color: #000000" v-on:click="selectedColor('Negro')"> </label>
+                                <input class="input-invisible" type="radio" name="colour" value="Negro" id="colour_sidebar_Negro" >
                             </li>
                             <li class="list-inline-item">
-                                <label class="btn-colour" for="colour_sidebar_White" style="background-color: #fff" data-allow-multiple> </label>
-                                <input class="input-invisible" type="checkbox" name="colour" value="value_sidebar_White" id="colour_sidebar_White">
+                                <label class="btn-colour" for="colour_sidebar_White" style="background-color: #FF0000" v-on:click="selectedColor('Rojo')"> </label>
+                                <input class="input-invisible" type="radio" name="colour" value="Rojo" id="colour_sidebar_Rojo">
                             </li>
                             <li class="list-inline-item">
-                                <label class="btn-colour" for="colour_sidebar_Violet" style="background-color: #8b6ea4" data-allow-multiple> </label>
-                                <input class="input-invisible" type="checkbox" name="colour" value="value_sidebar_Violet" id="colour_sidebar_Violet">
+                                <label class="btn-colour" for="colour_sidebar_Violet" style="background-color: #FFFFFF" v-on:click="selectedColor('Blanco')"> </label>
+                                <input class="input-invisible" type="radio" name="colour" value="Blanco" id="colour_sidebar_Blanco">
                             </li>
                             <li class="list-inline-item">
-                                <label class="btn-colour" for="colour_sidebar_Red" style="background-color: #dd6265" data-allow-multiple> </label>
-                                <input class="input-invisible" type="checkbox" name="colour" value="value_sidebar_Red" id="colour_sidebar_Red">
+                                <label class="btn-colour" for="colour_sidebar_Red" style="background-color: #008000" v-on:click="selectedColor('Verde')"> </label>
+                                <input class="input-invisible" type="radio" name="colour" value="Verde" id="colour_sidebar_Verde" >
                             </li>
                             </ul>
                         </div>
@@ -310,8 +310,9 @@
                 }
             }).then((result)=>{
                 this.productos = result.data;
+                console.log(this.productos);
                 this.productos_const = this.productos;
-
+  
                 if(this.$route.query.subcategoria){  
                     this.initProductosSubcategoria(); 
                 }
@@ -356,7 +357,7 @@
                         this.categoria_activa = this.categorias.filter(item=>item.subcategorias.some(subcat=>subcat.titulo == this.$route.query.subcategoria))[0].categoria._id;
                         this.subcategoria_activa = this.$route.query.subcategoria;
                     }
-                    console.log(this.categorias);
+                 
                 });
             },
             redirectSubcategoria(item,categoria){
@@ -377,6 +378,9 @@
             initProductosCategoria(){
                this.productos = this.productos_const.filter(item=>item.categoria== this.$route.query.categoria );
             },
+            selectedColor(value){
+                this.productos = this.productos_const.filter(item=>item.variedades.some(subitem=>subitem.variedad == value));
+            }
         },
         watch: {
             $route (to,from){
