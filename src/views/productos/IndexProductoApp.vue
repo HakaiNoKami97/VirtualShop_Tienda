@@ -380,7 +380,7 @@
             },
             selectedColor(value){
                 this.productos = this.productos_const.filter(item=>item.variedades.some(subitem=>subitem.variedad == value));
-            }
+            },
             selectedSizes(event){
                 this.productos = this.productos_const.filter(item=>item.variedades.some(subitem=>subitem.variedad == event.target.value));
             }
