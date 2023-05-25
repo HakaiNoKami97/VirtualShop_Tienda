@@ -230,7 +230,7 @@
                     <div class="d-none d-lg-block">
                         <a class="navbar-icon-link" id="cartdetails" href="cart.html" data-bs-target="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img src="/assets/icons/cart.png" style="width: 25px;" />
-                            <div class="navbar-icon-link-badge">3</div>
+                            <div class="navbar-icon-link-badge">{{carrito_length}}</div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-animated dropdown-menu-end p-4" aria-labelledby="cartdetails" style="max-width: 350px !important;">
                             <div class="navbar-cart-product-wrapper" style="    overflow-x: hidden !important;max-height: 340px !important;">
@@ -247,7 +247,7 @@
                                               <router-link :to="{name: 'show-producto',params:{slug: item.producto.slug}}" class="navbar-cart-product-link"  style="text-overflow:ellipsis;overflow: hidden;white-space: nowrap;">{{item.producto.titulo}}</router-link>
                                               <small class="d-block text-muted">{{item.producto.str_variedad}}: {{item.variedad.variedad}} </small>
                                               <small class="d-block text-muted">Cantidad: {{item.cantidad}} </small>
-                                              <strong class="d-block text-sm">{{convertCurrency(item.producto.precio)}} </strong>
+                                              <strong class="d-block text-sm">{{convertCurrency(item.producto.precio*item.cantidad)}} </strong>
                                             </div>
                                         </div>
                                     </div>
@@ -255,7 +255,7 @@
                                 
                             </div>
                             <!-- total price-->
-                            <div class="navbar-cart-total"><span class="text-uppercase text-muted">Total</span><strong class="text-uppercase">$75.00</strong></div>
+                            <div class="navbar-cart-total"><span class="text-uppercase text-muted">Total</span><strong class="text-uppercase">{{convertCurrency(total)}}</strong></div>
                             <!-- buttons-->
                             <div class="d-flex justify-content-between">
                                 <a class="btn btn-link text-dark me-3" href="cart.html">View Cart 
@@ -312,7 +312,9 @@ export default {
   data() {
     return {
       user: JSON.parse(this.$store.state.user),
-      carrito: []
+      carrito: [],
+      total: 0,
+      carrito_length : 0,
     }
   },
  
@@ -331,7 +333,12 @@ export default {
               'Authorization': this.$store.state.token
           }
       }).then((result)=>{
-        this.carrito = result.data;
+        this.carrito_length = result.data.carrito_general.length;
+        for(var item of result.data.carrito_general){
+          let subtotal = item.producto.precio * item.cantidad;
+          this.total = this.total+ subtotal;
+        }
+        this.carrito = result.data.carrito;
       });
     },
 
