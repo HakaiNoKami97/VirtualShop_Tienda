@@ -108,7 +108,7 @@
                                         </div>
                                         <div class="collapse" :id="'subcategories_'+index">
                                             <div class="nav nav-pills flex-column ms-3">
-                                             
+                                             <a style="cursor:pointer" class="nav-link mb-2" v-on:click="redirectCategoria(item.categoria.titulo)">Ver todos</a>
                                                 <a style="cursor:pointer" class="nav-link mb-2" v-for="subitem in item.subcategorias" v-on:click="redirectSubcategoria(subitem.titulo)">{{subitem.titulo}}</a>
                                             </div>
                                         </div>
@@ -294,6 +294,10 @@
                     this.initProductosSubcategoria();
                 }
 
+                if(this.$route.query.categoria){
+                    this.initProductosCategoria();
+                }
+
                 console.log(this.productos);
             });
             this.init_categorias();
@@ -334,9 +338,15 @@
                 this.initProductosSubcategoria();
             },
             initProductosSubcategoria(){
-               console.log(this.$route.query.subcategoria);
                this.productos = this.productos_const.filter(item=>item.subcategoria== this.$route.query.subcategoria );
-            }
+            },
+            redirectCategoria(item){
+                this.$router.push({name:'shop', query: {categoria: item}});
+                this.initProductosCategoria();
+            },
+            initProductosCategoria(){
+               this.productos = this.productos_const.filter(item=>item.categoria== this.$route.query.categoria );
+            },
         },
     }
 </script>
