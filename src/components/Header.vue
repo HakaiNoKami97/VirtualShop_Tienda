@@ -15,7 +15,7 @@
             </div>
             <div class="col-sm-5 d-flex justify-content-end">
               <!-- Language Dropdown-->
-
+              <button v-on:click="click_event()">Click</button>
 
               <div class="dropdown border-end px-3"><a class="dropdown-toggle topbar-link" id="langsDropdown" href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-haspopup="true" aria-expanded="false"><img class="topbar-flag" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/flag/gb.svg" alt="english">English</a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated" aria-labelledby="langsDropdown"><a class="dropdown-item text-sm" href="#"><img class="topbar-flag" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/flag/de.svg" alt="german">German</a><a class="dropdown-item text-sm" href="#"> <img class="topbar-flag" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/flag/fr.svg" alt="french">French</a></div>
@@ -307,7 +307,6 @@
 <script>
 
 import axios from 'axios';
-
 import currency_formatter from 'currency-formatter';
 
 export default {
@@ -345,18 +344,23 @@ export default {
         this.carrito = result.data.carrito;
       });
     },
+  click_event(){
+      this.$socket.emit('emit_method', 'Hola socket');
+    }
+  },
 
-  },
   created() {
-    
-     this.init_carrito();
-        console.log(2);
-  },
-  beforeMount() {
+    this.sockets.subscribe('semit_method', (data) => {
+       console.log(data);
+    });
+  },  
   
+  beforeMount() {
     this.init_carrito();
-    console.log(1);
+    
   },
+
+  
 
 }
 </script>
