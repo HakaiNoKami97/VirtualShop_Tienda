@@ -520,5 +520,26 @@ export const init_carousel = {
                 },
             }); 
         }, 50);
-    }
+    },
+     init_galeria: function(){
+        setTimeout(()=>{
+            $(".detail-slider").owlCarousel({
+                loop: true,
+                items: 1,
+                thumbs: true,
+                thumbsPrerendered: true,
+                responsiveClass: true,
+                responsive: {
+                    0: {
+                        items: 1,
+                        dots: true,
+                    },
+                    768: {
+                        items: 1,
+                        dots: false,
+                    },
+                },
+            });
+        }, 50);
+     }
 }

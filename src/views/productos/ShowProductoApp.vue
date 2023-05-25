@@ -356,9 +356,25 @@
 </template>
 
 <script>
-
+import { init_carousel } from '../../../public/assets/js/theme.d7b4a888.js'; 
+import axios from 'axios';
 export default {
     name: 'ShowProductoApp',
-  
+    methods: {
+      init_data(){
+        axios.get(this.$url+'/obtener_producto_slug/'+this.$route.params.slug,{
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((result)=>{
+          console.log(result);
+        });
+      }
+    },
+    beforeMount() {
+ 
+      init_carousel.init_galeria();
+      this.init_data();
+    },
 }
 </script>
