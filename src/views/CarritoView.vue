@@ -57,7 +57,7 @@
                             </div>
                             <div class="col-2 text-center">{{convertCurrency(item.producto.precio*item.cantidad)}}</div>
                             <div class="col-1 text-center">
-                                <a class="cart-remove" href="#">
+                                <a class="cart-remove" style="cursor:pointer" v-on:click="eliminar(item._id)">
                                     <img src="/assets/media/close.png" style="width: 18px;">
                                 </a>
                             </div>
@@ -124,7 +124,7 @@ export default{
                         'Authorization': this.$store.state.token
                     }
                 }).then((result)=>{
-          
+                    this.total = 0;
                     for(var item of result.data.carrito_general){
                         let subtotal = item.producto.precio * item.cantidad;
                         this.total = this.total+ subtotal;
@@ -134,6 +134,18 @@ export default{
                 });
             }
         },
+        eliminar(id){
+            axios.delete(this.$url+'/eliminar_producto_carrito/'+id,{
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': this.$store.state.token
+                }
+            }).then((result)=>{
+        
+               this.init_carrito();
+                this.$socket.emit('send_cart',true);
+            });
+        }
     },  
     beforeMount() {
         this.init_carrito();
