@@ -14,6 +14,7 @@ const routes = [
   {path: '/shop', name: 'shop', component: ()=> import('@/views/productos/IndexProductoApp.vue')},
   {path: '/cart', name: 'cart', component: ()=> import('@/views/productos/CarritoView.vue')},
   {path: '/producto/:slug', name: 'show-producto', component: ()=> import('@/views/productos/ShowProductoApp.vue')},
+  {path: '/cuenta/direcciones', name: 'direcciones', component: ()=> import('@/views/cuenta/DireccionesApp.vue')},
 ]
 
 const router = new VueRouter({
