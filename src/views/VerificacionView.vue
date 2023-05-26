@@ -74,6 +74,19 @@ export default {
         this.init_payment(this.payment_id);
     },
     methods: {
+        validar_venta(payment_id){
+            axios.get(this.$url+'/validar_payment_id_venta/'+payment_id,{
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then((result)=>{
+               if(result.data.length >= 1){
+                    //NO SE HACE LA VENTA
+               }else if(result.data.length == 0){
+                    //SI SE HACE LA VENTA
+               }
+            });
+        },
         init_payment(payment_id){
             axios.get('https://api.mercadopago.com/v1/payments/'+payment_id,{
                 headers: {
@@ -82,6 +95,9 @@ export default {
                     }
             }).then((result)=>{
                 this.pago = result.data;
+                if(this.pago.status == 'approved'){
+                    this.validar_venta(this.payment_id);
+                }
             })
         }
     },
