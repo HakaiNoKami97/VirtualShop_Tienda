@@ -1,19 +1,89 @@
 <template>
     <div>
-        <h1 style="margin-top: 10rem;">{{estado}}</h1>
+        <section class="hero" v-if="estado == 'pending' || estado == 'failure'"  style="margin-top: 8rem !important;">
+            <div class="container">
+                <!-- Breadcrumbs -->
+                <ol class="breadcrumb justify-content-center">
+                    <li class="breadcrumb-item">
+                        <router-link to="/">Inicio</router-link>
+                    </li>
+                </ol>
+                <!-- Hero Content-->
+                <div class="hero-content pb-5 text-center">
+                <h1 class="mb-5">Pago incorrecto</h1>
+                <div class="row">   
+                    <div class="col-xl-8 offset-xl-2"><p class="lead mb-0">As am hastily invited settled at limited civilly fortune me. Really spring in extent an by. Judge but built party world. Of so am he remember although required. Bachelor unpacked be advanced at. Confined in declared marianne is vicinity. </p></div>
+                </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="hero" v-if="estado == 'success'"  style="margin-top: 8rem !important;">
+            <div class="container" v-if="pago.status == 'approved'">
+                <!-- Breadcrumbs -->
+                <ol class="breadcrumb justify-content-center">
+                    <li class="breadcrumb-item">
+                        <router-link to="/">Inicio</router-link>
+                    </li>
+                </ol>
+                <!-- Hero Content-->
+                <div class="hero-content pb-5 text-center">
+                <h1 class="mb-5">Validando pago...</h1>
+                <div class="row">   
+                    <div class="col-xl-8 offset-xl-2">
+                        <img src="/assets/media/reloj.gif" style="width: 80px;">
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="container" v-if="pago.status != 'approved'">
+                <!-- Breadcrumbs -->
+                <ol class="breadcrumb justify-content-center">
+                    <li class="breadcrumb-item">
+                        <router-link to="/">Inicio</router-link>
+                    </li>
+                </ol>
+                <!-- Hero Content-->
+                <div class="hero-content pb-5 text-center">
+                <h1 class="mb-5">Pago no aprovado</h1>
+                <div class="row">   
+                    <div class="col-xl-8 offset-xl-2"><p class="lead mb-0">As am hastily invited settled at limited civilly fortune me. Really spring in extent an by. Judge but built party world. Of so am he remember although required. Bachelor unpacked be advanced at. Confined in declared marianne is vicinity. </p></div>
+                </div>
+                </div>
+            </div>
+        </section>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'VerificacionView',
     data() {
         return {
             estado: '',
+            payment_id: '',
+            pago: {},
         }
     },
     beforeMount() {
         this.estado = this.$route.params.estado;
+        this.payment_id = this.$route.query.payment_id;
+
+        this.init_payment(this.payment_id);
+    },
+    methods: {
+        init_payment(payment_id){
+            axios.get('https://api.mercadopago.com/v1/payments/'+payment_id,{
+                headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer TEST-6988418369124374-072921-db2efac53ee93fb95e044c7960f1c3ca-673389674'
+                    }
+            }).then((result)=>{
+                this.pago = result.data;
+            })
+        }
     },
 }
 </script>
