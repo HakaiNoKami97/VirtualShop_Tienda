@@ -228,18 +228,20 @@
             crearPreferencia(){
                 let data = {
                     back_urls: {
-                        success: 'http://localhost:8080/verifacion/success',
-                        pending: 'http://localhost:8080/verifacion/pending',
-                        failure: 'http://localhost:8080/verifacion/failure'
+                        success: 'http://localhost:8080/verificacion/success/'+this.venta.direccion,
+                        pending: 'http://localhost:8080/verificacion/pending',
+                        failure: 'http://localhost:8080/verificacion/failure'
                     },
                     items: this.items,
                     auto_return: 'approved'
                 }
 
+                console.log(data);
+
                 axios.post('https://api.mercadopago.com/checkout/preferences',data,{
                     headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer TEST-2933724775260731-052616-c4feb5bac8014c1b9e34ba3f795f100e-1383377727'
+                            'Authorization': 'Bearer TEST-6988418369124374-072921-db2efac53ee93fb95e044c7960f1c3ca-673389674'
                         }
                 }).then((result)=>{
                     console.log(result);

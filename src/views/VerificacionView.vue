@@ -65,11 +65,16 @@ export default {
             estado: '',
             payment_id: '',
             pago: {},
+            direccion: ''
         }
     },
     beforeMount() {
         this.estado = this.$route.params.estado;
         this.payment_id = this.$route.query.payment_id;
+        if(this.$route.params.direccion){
+            this.direccion = this.$route.params.direccion;
+            console.log(this.direccion);
+        }
 
         this.init_payment(this.payment_id);
     },
@@ -77,7 +82,8 @@ export default {
         validar_venta(payment_id){
             axios.get(this.$url+'/validar_payment_id_venta/'+payment_id,{
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                     'Authorization': this.$store.state.token
                 }
             }).then((result)=>{
                if(result.data.length >= 1){
