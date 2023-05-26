@@ -27,37 +27,38 @@
                     <div class="row">
                         <div class="form-group col-md-6 mb-3">
                             <label class="form-label" for="fullname_invoice"><b>Nombres</b></label>
-                            <input class="form-control" type="text" name="fullname_invoice" placeholder="Joe" id="fullname_invoice">
+                            <input class="form-control" type="text" placeholder="Joe" v-model="direccion.nombres">
                         </div>
                         <div class="form-group col-md-6 mb-3" >
                             <label class="form-label" for="emailaddress_invoice"><b>Apellidos</b></label>
-                            <input class="form-control" type="text" name="emailaddress_invoice" placeholder="Black" id="emailaddress_invoice">
+                            <input class="form-control" type="text" placeholder="Black" v-model="direccion.apellidos">
                         </div>
                         <div class="form-group col-md-6 mb-3">
                             <label class="form-label" for="street_invoice"><b>Documento</b></label>
-                            <input class="form-control" type="text" name="street_invoice" placeholder="123456789" id="street_invoice">
+                            <input class="form-control" type="text" placeholder="123456789" v-model="direccion.documento">
                         </div>
                         <div class="form-group col-md-6 mb-3">
                             <label class="form-label" for="city_invoice"><b>Telefono</b></label>
-                            <input class="form-control" type="text" name="city_invoice" placeholder="(+51)987456132" id="city_invoice">
+                            <input class="form-control" type="text" placeholder="(+51)987456132" v-model="direccion.telefono">
                         </div>
                         <div class="form-group col-md-6 mb-3">
                             <label class="form-label" for="zip_invoice"><b>País</b></label>
-                            <select name="" class="form-control" id="">
+                            <select  class="form-control" v-model="direccion.pais">
                                 <option value="" disabled selected>Seleccionar</option>
+                                <option :value="item" v-for="item in $paises">{{item}}</option>
                             </select>
                         </div>
                         <div class="form-group col-md-6 mb-3">
                             <label class="form-label" for="state_invoice"><b>Region/Ciudad</b></label>
-                            <input class="form-control" type="text" name="state_invoice" placeholder="Lima/Miraflores" id="state_invoice">
+                            <input class="form-control" type="text" placeholder="Lima/Miraflores" v-model="direccion.ciudad">
                         </div>
                         <div class="form-group col-md-6 mb-3">
                             <label class="form-label" for="phonenumber_invoice"><b>ZIP</b></label>
-                            <input class="form-control" type="text" name="phonenumber_invoice" placeholder="1234567" id="phonenumber_invoice">
+                            <input class="form-control" type="text" placeholder="1234567" v-model="direccion.zip">
                         </div>
                          <div class="form-group col-md-6 mb-3">
                             <label class="form-label" for="phonenumber_invoice"><b>Dirección</b></label>
-                            <input class="form-control" type="text" name="phonenumber_invoice" placeholder="Miraflores #123" id="phonenumber_invoice">
+                            <input class="form-control" type="text" placeholder="Miraflores #123" v-model="direccion.direccion">
                         </div>
                         
                     </div>
@@ -66,10 +67,12 @@
               
                 </div>
                 <div class="mb-4 mt-3 text-center mg-5">
-                    <button class="btn btn-dark" type="submit"><i class="far fa-save me-2"></i>Crear dirección</button>
+                    <button class="btn btn-dark" type="button" v-on:click="crear_direccion()"><i class="far fa-save me-2"></i>Crear dirección</button>
                 </div>
 
-
+                <div class="text-center" v-if="msm_error">
+                    <span class="text-danger">{{msm_error}}</span>
+                </div>
 
                 <table class="table table-bordered table-striped" style="margin-top: 5rem !important;background: white !important;">
                     <thead class="table-dark">
@@ -132,3 +135,48 @@
         <!-- Footer-->
     </div>
 </template>
+<script>
+import axios from 'axios';
+export default {
+    data() {
+        return {
+            direccion: {
+                pais: ''
+            },
+            msm_error:''
+        }
+    },
+    methods: {
+        crear_direccion(){
+            if(!this.direccion.nombres){
+                this.msm_error = 'Ingrese los nombres por favor';
+            }else if(!this.direccion.apellidos){
+                this.msm_error = 'Ingrese los apellidos por favor';
+            }else if(!this.direccion.documento){
+                this.msm_error = 'Ingrese el documento por favor';
+            }else if(!this.direccion.telefono){
+                this.msm_error = 'Ingrese el telefono por favor';
+            }else if(!this.direccion.pais){
+                this.msm_error = 'Seleccione el pais por favor';
+            }else if(!this.direccion.ciudad){
+                this.msm_error = 'Ingrese la ciudad por favor';
+            }else if(!this.direccion.zip){
+                this.msm_error = 'Ingrese el zip por favor';
+            }else if(!this.direccion.direccion){
+                this.msm_error = 'Ingrese la direccion por favor';
+            }else{
+                axios.post(this.$url+'/crear_direccion_cliente',this.direccion,{
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': this.$store.state.token
+                    }
+                }).then((result)=>{
+                    this.msm_error = '';
+                    console.log(result);
+                });
+            }
+           
+        }
+    },
+}
+</script>
