@@ -8,6 +8,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import SocketIO from 'vue-socket.io'
 const socketConnection = SocketIO('http://localhost:4201');
 Vue.config.productionTip = false
+Vue.prototype.$envio = 20;
 Vue.prototype.$url = 'http://localhost:4201/api';
 Vue.prototype.$token = localStorage.getItem('token');
 Vue.use(BootstrapVue)
