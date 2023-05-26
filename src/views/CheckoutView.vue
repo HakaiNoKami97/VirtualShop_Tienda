@@ -29,22 +29,15 @@
                 </div>
                 <div class="block-body" style="background: #fff6e8 !important">
                     <div class="row">
-                    <div class="mb-4 col-md-6 d-flex align-items-center">
-                        <input type="radio" name="shippping" id="option0">
-                        <label class="ms-3" for="option0"><strong class="d-block text-uppercase mb-2">Usps next day</strong><span class="text-muted text-sm">Get it right on next day - fastest option possible.</span></label>
-                    </div>
-                    <div class="mb-4 col-md-6 d-flex align-items-center">
-                        <input type="radio" name="shippping" id="option1">
-                        <label class="ms-3" for="option1"><strong class="d-block text-uppercase mb-2">Usps next day</strong><span class="text-muted text-sm">Get it right on next day - fastest option possible.</span></label>
-                    </div>
-                    <div class="mb-4 col-md-6 d-flex align-items-center">
-                        <input type="radio" name="shippping" id="option2">
-                        <label class="ms-3" for="option2"><strong class="d-block text-uppercase mb-2">Usps next day</strong><span class="text-muted text-sm">Get it right on next day - fastest option possible.</span></label>
-                    </div>
-                    <div class="mb-4 col-md-6 d-flex align-items-center">
-                        <input type="radio" name="shippping" id="option3">
-                        <label class="ms-3" for="option3"><strong class="d-block text-uppercase mb-2">Usps next day</strong><span class="text-muted text-sm">Get it right on next day - fastest option possible.</span></label>
-                    </div>
+                        <div class="mb-4 col-md-6 d-flex align-items-center" v-for="item in direcciones">
+                            <input type="radio" name="shippping" id="option0" :value="item._id" v-on:change="selected_direccion($event)">
+                            <label class="ms-3" for="option0">
+                                <strong class="d-block text-uppercase mb-2">{{item.pais}}, {{item.ciudad}}</strong>
+                                <span class="text-muted text-sm">{{item.direccion}}</span> <br>
+                                <span class="text-muted text-sm">{{item.nombre}} {{item.apellidos}}, {{item.telefono}}</span>
+                            </label>
+                        </div>
+                   
                     </div>
                 </div>
 
@@ -71,50 +64,29 @@
                     </div>
                     <div class="cart-body"  style="background: #fff6e8 !important">
                         <!-- Product-->
-                        <div class="cart-item">
+                        <div class="cart-item" v-for="item in productos">
                         <div class="row d-flex align-items-center text-center">
                             <div class="col-6">
-                            <div class="d-flex align-items-center"><a href="detail.html"><img class="cart-item-img" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/product-square-ian-dooley-347968-unsplash.jpg" alt="..."></a>
-                                <div class="cart-title text-start"><a class="text-uppercase text-dark" href="detail.html"><strong>Skull Tee</strong></a><br><span class="text-muted text-sm">Size: Large</span><br><span class="text-muted text-sm">Colour: Green</span>
+                            <div class="d-flex align-items-center">
+                                <a href="detail.html">
+                                    <img class="cart-item-img" :src="$url+'/obtener_portada_producto/'+item.producto.portada" alt="...">
+                                </a>
+                                <div class="cart-title text-start">
+                                    <a class="text-uppercase text-dark" href="detail.html">
+                                        <strong>{{item.producto.titulo.substr(0,20)}}...</strong>
+                                    </a>
+                                    <br>
+                                    <span class="text-muted text-sm">{{item.producto.str_variedad}}: {{item.variedad.variedad}}</span>
                                 </div>
                             </div>
                             </div>
-                            <div class="col-2">$65.00</div>
-                            <div class="col-2">4
+                            <div class="col-2">{{convertCurrency(item.producto.precio)}}</div>
+                            <div class="col-2">  {{item.cantidad}}
                             </div>
-                            <div class="col-2 text-center">$260.00</div>
+                            <div class="col-2 text-center">{{convertCurrency(item.producto.precio*item.cantidad)}}</div>
                         </div>
                         </div>
-                        <!-- Product-->
-                        <div class="cart-item">
-                        <div class="row d-flex align-items-center text-center">
-                            <div class="col-6">
-                            <div class="d-flex align-items-center"><a href="detail.html"><img class="cart-item-img" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/product-square-kyle-loftus-596319-unsplash.jpg" alt="..."></a>
-                                <div class="cart-title text-start"><a class="text-uppercase text-dark" href="detail.html"><strong>Transparent Blouse</strong></a><br><span class="text-muted text-sm">Size: Medium</span>
-                                </div>
-                            </div>
-                            </div>
-                            <div class="col-2">$55.00</div>
-                            <div class="col-2">3
-                            </div>
-                            <div class="col-2 text-center">$165.00</div>
-                        </div>
-                        </div>
-                        <!-- Product-->
-                        <div class="cart-item">
-                        <div class="row d-flex align-items-center text-center">
-                            <div class="col-6">
-                            <div class="d-flex align-items-center"><a href="detail.html"><img class="cart-item-img" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/product-square-serrah-galos-494312-unsplash.jpg" alt="..."></a>
-                                <div class="cart-title text-start"><a class="text-uppercase text-dark" href="detail.html"><strong>White Tee</strong></a><br><span class="text-muted text-sm">Size: Medium</span>
-                                </div>
-                            </div>
-                            </div>
-                            <div class="col-2">$55.00</div>
-                            <div class="col-2">3
-                            </div>
-                            <div class="col-2 text-center">$165.00</div>
-                        </div>
-                        </div>
+                        
                     </div>
                     </div>
                 </div>
@@ -132,10 +104,10 @@
                 <div class="block-body pt-1"  style="background: #fff6e8 !important">
                     <p class="text-sm">Shipping and additional costs are calculated based on values you have entered.</p>
                     <ul class="order-summary mb-0 list-unstyled">
-                    <li class="order-summary-item"><span>Subtotal </span><span>$390.00</span></li>
-                    <li class="order-summary-item"><span>Envio</span><span>$10.00</span></li>
+                    <li class="order-summary-item"><span>Subtotal </span><span>{{convertCurrency(total)}}</span></li>
+                    <li class="order-summary-item"><span>Envio</span><span>{{convertCurrency($envio)}}</span></li>
                 
-                    <li class="order-summary-item border-0"><span>Total</span><strong class="order-summary-total">$400.00</strong></li>
+                    <li class="order-summary-item border-0"><span>Total</span><strong class="order-summary-total">{{convertCurrency(total+$envio)}}</strong></li>
                     </ul>
                 </div>
                 </div>
@@ -182,8 +154,62 @@
 </template>
 
 <script>
+    import axios from 'axios';
+    import currency_formatter from 'currency-formatter';
 
     export default {
-        name: 'CheckoutView'
+        name: 'CheckoutView',
+        data() {
+            return {
+                direcciones: [],
+                venta: {},
+                productos: [],
+                total: 0,
+                load_data: true,
+            }
+        },
+        beforeMount() {
+            this.init_direcciones();
+            this.init_carrito();
+        },
+        methods:{
+            convertCurrency(number){
+                return currency_formatter.format(number, { code: 'USD' });
+            },
+            init_direcciones(){
+                axios.get(this.$url+'/obternet_direcciones_cliente',{
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': this.$store.state.token
+                    }
+                }).then((result)=>{
+                    console.log(result);
+                    this.direcciones = result.data;
+                });
+            },
+            selected_direccion(event){
+                this.venta.direccion = event.target.value;
+            },
+            init_carrito(){
+            if(this.$store.state.token != null){
+                this.load_data = true;
+                axios.get(this.$url+'/obtener_carrito_cliente',{
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': this.$store.state.token
+                    }
+                }).then((result)=>{
+                    this.total = 0;
+                    for(var item of result.data.carrito_general){
+                        let subtotal = item.producto.precio * item.cantidad;
+                        this.total = this.total+ subtotal;
+                    }
+                    this.productos = result.data.carrito_general;
+                    this.load_data = false;
+                });
+            }
+        },
+
+        }
     }
 </script>
