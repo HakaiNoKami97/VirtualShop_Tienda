@@ -24,7 +24,7 @@
             <div class="col-lg-8">
                 <div class="cart">
                 <div class="cart-wrapper">
-                    <div class="cart-header text-center" style="background: #005f96 !important;">
+                    <div class="cart-header text-center" style="background: #2983df !important;">
                     <div class="row">
                         <div class="col-5 text-white">Producto</div>
                         <div class="col-2 text-white">Precio</div>
@@ -76,7 +76,7 @@
                 </div>
                 <div class="my-5 d-flex justify-content-between flex-column flex-lg-row">
                     <router-link class="btn btn-link text-muted" to="/shop"> Continuar comprando</router-link>
-                    <a class="btn btn-dark" >Checkout <i class="fa fa-chevron-right"></i>                                                     </a>
+                    <router-link to="/checkout" class="btn btn-dark" >Checkout <i class="fa fa-chevron-right"></i></router-link>
                 </div>
             </div>
             <div class="col-lg-4">

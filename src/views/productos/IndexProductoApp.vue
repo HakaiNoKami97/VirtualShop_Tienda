@@ -407,7 +407,7 @@
 
 <style>
 .noUi-horizontal .noUi-handle {
-    background:#005f96 !important;
+    background:#2983df !important;
     border-radius: 5px !important;
 }
 .noUi-horizontal .noUi-handle {
@@ -427,7 +427,7 @@
 
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
     color: #ffffff !important;
-    background-color: #005f96 !important;
+    background-color: #2983df !important;
 }
 
 </style>

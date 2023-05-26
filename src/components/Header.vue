@@ -37,7 +37,7 @@
       </div>
       <!-- Top Bar End-->
       <!-- Navbar-->
-      <nav class="navbar navbar-expand-lg navbar-sticky navbar-airy navbar-dark bg-fixed-white navbar-fixed-light" style="background: #005f96 !important;">
+      <nav class="navbar navbar-expand-lg navbar-sticky navbar-airy navbar-dark bg-fixed-white navbar-fixed-light" style="background: #2983df !important;">
         <div class="container-fluid">  
           <!-- Navbar Header  -->
           <a class="navbar-brand" style="color:white !important" href="index.html"><svg class="navbar-brand-svg" viewBox="0 0 65 16" width="85" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,7 +52,7 @@
                 <router-link class="nav-link" to="/">Inicio</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" :to="{name: 'shop'}" >Tienda</router-link>
+                <router-link class="nav-link" :to="{name: 'shop'}">Tienda</router-link>
               </li>
               <!-- Megamenu-->
               <li class="nav-item dropdown position-static"><a class="nav-link dropdown-toggle " href="#" data-bs-toggle="dropdown">Categorias</a>
@@ -260,10 +260,10 @@
                             <div class="navbar-cart-total"><span class="text-uppercase text-muted">Total</span><strong class="text-uppercase">{{convertCurrency(total)}}</strong></div>
                             <!-- buttons-->
                             <div class="d-flex justify-content-between">
-                                <a class="btn btn-link text-dark me-3" href="cart.html">View Cart 
+                                <router-link class="btn btn-link text-dark me-3" to="/cart">Carrito 
                                   <img src="/assets/icons/shopping-bag.png" style="width: 15px;">
-                                </a>
-                                <a class="btn btn-outline-dark" href="checkout1.html">Checkout</a>
+                                </router-link>
+                                <router-link to="/checkout" class="btn btn-outline-dark">Checkout</router-link>
                             </div>
                         </div>
                     </div>

@@ -303,10 +303,10 @@
 .detail-nav-link.nav-link.active, .detail-nav-link.nav-link:hover, .detail-nav-link.nav-link:focus {
   color: #ffffff !important;
   border-color: #fff #fff #343a40 !important;
-  background: #005f96 !important;
+  background: #2983df !important;
 }
 .bg_variedad{
-background: #005f96 !important;
+background: #2983df !important;
 color: white !important;
 border:none !important
 }

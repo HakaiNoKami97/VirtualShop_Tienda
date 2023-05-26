@@ -20,7 +20,7 @@
             <div class="col-lg-8 col-xl-9">
                 <div class="block">
                     <!-- Invoice Address-->
-                    <div class="block-header" style="background: #005f96;">
+                    <div class="block-header" style="background: #2983df;">
                     <h6 class="text-uppercase mb-0 text-white">Nueva direcciones                 </h6>
                     </div>
                     <div class="block-body">
