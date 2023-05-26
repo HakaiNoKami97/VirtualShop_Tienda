@@ -95,7 +95,7 @@
                             </td>
                             <td>{{item.direccion}}</td>
                             <td>
-                                <button class="btn btn-danger btn-sm">Eliminar</button>
+                                <button class="btn btn-danger btn-sm" v-on:click="eliminar_direccion(item._id)">Eliminar</button>
                             </td>
                         </tr>
                        
@@ -173,6 +173,16 @@ export default {
                 this.direcciones = result.data;
             });
         },
+        eliminar_direccion(id){
+            axios.delete(this.$url+'/eliminar_direccion_cliente/'+id,{
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': this.$store.state.token
+                }
+            }).then((result)=>{
+                this.init_direcciones();
+            });
+        },
         crear_direccion(){
             if(!this.direccion.nombres){
                 this.msm_error = 'Ingrese los nombres por favor';
@@ -198,6 +208,9 @@ export default {
                     }
                 }).then((result)=>{
                     this.msm_error = '';
+                    this.direccion = {
+                        pais: ''
+                    },
                     this.init_direcciones();
                 });
             }
