@@ -245,6 +245,7 @@
                         }
                 }).then((result)=>{
                     console.log(result);
+                    window.location.href = result.data.sandbox_init_point;
                 })
             }
         }
