@@ -132,8 +132,22 @@ export default {
                if(result.data.length >= 1){
                     this.msm_error = 'El pago ya fué asignado a otra venta';
                }else if(result.data.length == 0){
-                    
+                    this.crear_venta();
                }
+            });
+        },
+
+        crear_venta(){
+            this.venta.detalles = this.detalles;
+            axios.post(this.$url+'/crear_venta_cliente',this.venta,{
+                headers: {
+                    'Content-Type': 'application/json',
+                     'Authorization': this.$store.state.token
+                }
+            }).then((result)=>{
+                console.log(result);
+                //REDIRECCION
+                this.$socket.emit('send_cart',true);
             });
         },
         init_payment(payment_id){
