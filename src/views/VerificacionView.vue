@@ -154,7 +154,7 @@ export default {
             axios.get('https://api.mercadopago.com/v1/payments/'+payment_id,{
                 headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer TEST-6988418369124374-072921-db2efac53ee93fb95e044c7960f1c3ca-673389674'
+                        'Authorization': 'Bearer TEST-2933724775260731-052616-c4feb5bac8014c1b9e34ba3f795f100e-1383377727'
                     }
             }).then((result)=>{
                 this.pago = result.data;
