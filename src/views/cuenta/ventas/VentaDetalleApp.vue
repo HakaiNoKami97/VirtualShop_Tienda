@@ -26,13 +26,13 @@
                   <ol class="breadcrumb justify-content-center">
                       <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
                       <li class="breadcrumb-item"><router-link to="/">Mis ventas</router-link></li>
-                      <li class="breadcrumb-item active">Orden #123        </li>
+                      <li class="breadcrumb-item active">Orden #{{venta.serie.toString().padStart(6,'000000')}}</li>
                       </ol>
                   <!-- Hero Content-->
                   <div class="hero-content pb-5 text-center">
-                    <h1 class="hero-heading">Order #1735</h1>
+                    <h1 class="hero-heading">Order #{{venta.serie.toString().padStart(6,'000000')}}</h1>
                     <div class="row">   
-                      <div class="col-xl-8 offset-xl-2"><p class="lead text-muted">Order #1735 was placed on <strong>22/06/2021</strong> and is currently <strong>Being prepared</strong>.</p><p class="text-muted">If you have any questions, please feel free to <a href="contact.html">contact us</a>, our customer service center is working for you 24/7.</p></div>
+                      <div class="col-xl-8 offset-xl-2"><p class="lead text-muted">Order #{{venta.serie.toString().padStart(6,'000000')}} was placed on <strong>{{convertDate(venta.createdAt)}}</strong> and is currently <strong>Being prepared</strong>.</p><p class="text-muted">If you have any questions, please feel free to <a href="contact.html">contact us</a>, our customer service center is working for you 24/7.</p></div>
                     </div>
                   </div>
                 </div>
@@ -60,50 +60,29 @@
                               </div>
                           </div>
                           <div class="cart-body" style="background: #fff6e8 !important">
-                            <!-- Product-->
-                            <div class="cart-item">
-                              <div class="row d-flex align-items-center text-center">
+                            <div class="cart-item" v-for="item in detalles">
+                                <div class="row d-flex align-items-center text-center">
                                 <div class="col-6">
-                                  <div class="d-flex align-items-center"><a href="detail.html"><img class="cart-item-img" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/product-square-ian-dooley-347968-unsplash.jpg" alt="..."></a>
-                                    <div class="cart-title text-start"><a class="text-uppercase text-dark" href="detail.html"><strong>Skull Tee</strong></a><br><span class="text-muted text-sm">Size: Large</span><br><span class="text-muted text-sm">Colour: Green</span>
+                                    <div class="d-flex align-items-center">
+                                        <router-link :to="{name: 'show-producto',params:{slug: item.producto.slug}}">
+                                            <img class="cart-item-img" :src="$url+'/obtener_portada_producto/'+item.producto.portada" alt="...">
+                                        </router-link>
+                                        <div class="cart-title text-start">
+                                            <router-link class="text-uppercase text-dark" :to="{name: 'show-producto',params:{slug: item.producto.slug}}">
+                                                <strong>{{item.producto.titulo.substr(0,20)}}...</strong>
+                                            </router-link>
+                                            <br>
+                                            <span class="text-muted text-sm">{{item.producto.str_variedad}}: {{item.variedad.variedad}}</span>
+                                        </div>
                                     </div>
-                                  </div>
                                 </div>
-                                <div class="col-2">$65.00</div>
-                                <div class="col-2">4
+                                <div class="col-2">{{convertCurrency(item.producto.precio)}}</div>
+                                <div class="col-2">
+                                    {{item.cantidad}}
                                 </div>
-                                <div class="col-2 text-center">$260.00</div>
-                              </div>
-                            </div>
-                            <!-- Product-->
-                            <div class="cart-item">
-                              <div class="row d-flex align-items-center text-center">
-                                <div class="col-6">
-                                  <div class="d-flex align-items-center"><a href="detail.html"><img class="cart-item-img" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/product-square-kyle-loftus-596319-unsplash.jpg" alt="..."></a>
-                                    <div class="cart-title text-start"><a class="text-uppercase text-dark" href="detail.html"><strong>Transparent Blouse</strong></a><br><span class="text-muted text-sm">Size: Medium</span>
-                                    </div>
-                                  </div>
+                                <div class="col-2 text-center">{{convertCurrency(item.producto.precio*item.cantidad)}}</div>
+                      
                                 </div>
-                                <div class="col-2">$55.00</div>
-                                <div class="col-2">3
-                                </div>
-                                <div class="col-2 text-center">$165.00</div>
-                              </div>
-                            </div>
-                            <!-- Product-->
-                            <div class="cart-item">
-                              <div class="row d-flex align-items-center text-center">
-                                <div class="col-6">
-                                  <div class="d-flex align-items-center"><a href="detail.html"><img class="cart-item-img" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/product-square-serrah-galos-494312-unsplash.jpg" alt="..."></a>
-                                    <div class="cart-title text-start"><a class="text-uppercase text-dark" href="detail.html"><strong>White Tee</strong></a><br><span class="text-muted text-sm">Size: Medium</span>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-2">$55.00</div>
-                                <div class="col-2">3
-                                </div>
-                                <div class="col-2 text-center">$165.00</div>
-                              </div>
                             </div>
                           </div>
                         </div>
@@ -112,31 +91,30 @@
                         <div class="col-md-6">
                           <div class="block mb-5" >
                             <div class="block-header" style="background: #fff6e8 !important">
-                              <h6 class="text-uppercase mb-0">Order Summary</h6>
+                              <h6 class="text-uppercase mb-0">Detalles de orden</h6>
                             </div>
                             <div class="block-body bg-light pt-1" style="background: #fff6e8 !important">
                               <p class="text-sm">Shipping and additional costs are calculated based on values you have entered.</p>
                               <ul class="order-summary mb-0 list-unstyled">
-                                <li class="order-summary-item"><span>Order Subtotal </span><span>$390.00</span></li>
-                                <li class="order-summary-item"><span>Shipping and handling</span><span>$10.00</span></li>
-                                <li class="order-summary-item"><span>Tax</span><span>$0.00</span></li>
-                                <li class="order-summary-item border-0"><span>Total</span><strong class="order-summary-total">$400.00</strong></li>
+                                <li class="order-summary-item"><span>Subtotal </span><span>{{convertCurrency(venta.total)}}</span></li>
+                                <li class="order-summary-item"><span>Envio</span><span>{{convertCurrency(venta.envio)}}</span></li>
+                                <li class="order-summary-item border-0"><span>Total</span><strong class="order-summary-total">{{convertCurrency(venta.total+venta.envio)}}</strong></li>
                               </ul>
                             </div>
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="block-header" style="background: #fff6e8 !important">
-                            <h6 class="text-uppercase mb-0">Invoice address</h6>
+                            <h6 class="text-uppercase mb-0">Cliente</h6>
                           </div>
                           <div class="block-body bg-light pt-1" style="background: #fff6e8 !important">
-                            <p>John Brown<br>13/25 New Avenue<br>New Heaven<br>45Y 73J<br>England<br><strong>Great Britain</strong></p>
+                            <p>{{venta.cliente.nombres}} {{venta.cliente.apellidos}}<br>{{venta.cliente.email}}</p>
                           </div>
                           <div class="block-header" style="background: #fff6e8 !important">
-                            <h6 class="text-uppercase mb-0">Shipping address</h6>
+                            <h6 class="text-uppercase mb-0">Dirección de entrega</h6>
                           </div>
                           <div class="block-body bg-light pt-1" style="background: #fff6e8 !important">
-                            <p>John Brown<br>13/25 New Avenue<br>New Heaven<br>45Y 73J<br>England<br><strong>Great Britain</strong></p>
+                            <p>{{venta.direccion.nombres}} {{venta.direccion.apellidos}}<br>{{venta.direccion.telefono}}<br>{{venta.direccion.documento}}<br>{{venta.direccion.zip}} {{venta.direccion.pais}}<br>{{venta.direccion.ciudad}}<br>{{venta.direccion.direccion}}</p>
                           </div>
                         </div>
                       </div>
@@ -166,6 +144,8 @@
 <script>
 import SidebarCliente from '@/components/SidebarCliente.vue';
 import axios from 'axios';
+import moment from 'moment';
+import currency_formatter from 'currency-formatter';
 
 export default {
   name: 'VentaDetalleApp',
@@ -202,7 +182,13 @@ export default {
           }
           this.load_data = false;
       });
-    }
+    },
+    convertDate(item){
+      return moment(item).format('YYYY/MM/DD');
+    },
+    convertCurrency(number){
+        return currency_formatter.format(number, { code: 'USD' });
+    },
   }
 }
 </script>
