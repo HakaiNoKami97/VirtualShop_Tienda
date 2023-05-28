@@ -91,11 +91,11 @@
                                       <h6 class="text-uppercase">Comentario:</h6>
                                     </div>
                                     <div class="col-4">
-                                      <star-rating :border-width="3" :star-size="35" :border-color="'#fff'" :animate="true" :rating="3"></star-rating>
+                                      <star-rating :border-width="3" :star-size="35" :border-color="'#fff'" :animate="true" :rating="3" v-model="review.estrellas"></star-rating>
                                     </div>
                                     <div class="col-8 d-flex">
-                                      <input type="text" class="form-control" placeholder="Emite tu comentario del producto">
-                                      <button class="btn btn-primary btn-sm">Enviar</button>
+                                      <input type="text" class="form-control" placeholder="Emite tu comentario del producto" v-model="review.comentario">
+                                      <button class="btn btn-primary btn-sm" v-on:click="enviar_review(item.producto._id)">Enviar</button>
                                     </div>
                                   </div>
                                 </div>
@@ -173,6 +173,9 @@ export default {
       detalles: [],
       acceso: false,
       load_data: true,
+      stars: 3,
+      review: {},
+      msm_error : '',
     }
   },
   components: {
@@ -208,6 +211,22 @@ export default {
     convertCurrency(number){
         return currency_formatter.format(number, { code: 'USD' });
     },
+    enviar_review(id){
+      if(!this.review.comentario){
+        this.msm_error = 'Ingrese un comentario';
+      }else{
+        this.review.producto = id;
+         axios.post(this.$url+'/registrar_review_cliente',this.review,{
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': this.$store.state.token
+              }
+          }).then((result)=>{
+              console.log(result);
+              
+          });
+      }
+    }
   }
 }
 </script>
