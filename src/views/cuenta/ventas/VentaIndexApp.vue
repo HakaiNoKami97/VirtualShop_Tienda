@@ -31,34 +31,14 @@
                         </tr>
                     </thead>
                     <tbody style="background: white !important;">
-                        <tr>
-                        <th class="py-4 align-middle"># 1735</th>
-                        <td class="py-4 align-middle">22/6/2017</td>
-                        <td class="py-4 align-middle">$150.00</td>
-                        <td class="py-4 align-middle"><span class="badge p-2 text-uppercase badge-info-light">Being prepared</span></td>
-                        <td class="py-4 align-middle"><a class="btn btn-outline-dark btn-sm" href="customer-order.html">View</a></td>
+                        <tr v-for="item in ventas">
+                            <th class="py-4 align-middle"># {{item.serie.toString().padStart(6,'000000')}}</th>
+                            <td class="py-4 align-middle">{{convertDate(item.createdAt)}}</td>
+                            <td class="py-4 align-middle">{{convertCurrency(item.total+item.envio)}}</td>
+                            <td class="py-4 align-middle"><span class="badge p-2 text-uppercase badge-info-light">{{item.estado}}</span></td>
+                            <td class="py-4 align-middle"><router-link class="btn btn-outline-dark btn-sm" :to="{name: 'venta',params: {id:item._id}}" >Detalles</router-link></td>
                         </tr>
-                        <tr>
-                        <th class="py-4 align-middle"># 1734</th>
-                        <td class="py-4 align-middle">7/5/2017</td>
-                        <td class="py-4 align-middle">$150.00</td>
-                        <td class="py-4 align-middle"><span class="badge p-2 text-uppercase badge-warning-light">Action needed</span></td>
-                        <td class="py-4 align-middle"><a class="btn btn-outline-dark btn-sm" href="customer-order.html">View</a></td>
-                        </tr>
-                        <tr>
-                        <th class="py-4 align-middle"># 1730</th>
-                        <td class="py-4 align-middle">30/9/2016</td>
-                        <td class="py-4 align-middle">$150.00</td>
-                        <td class="py-4 align-middle"><span class="badge p-2 text-uppercase badge-success-light">Received</span></td>
-                        <td class="py-4 align-middle"><a class="btn btn-outline-dark btn-sm" href="customer-order.html">View</a></td>
-                        </tr>
-                        <tr>
-                        <th class="py-4 align-middle"># 1705</th>
-                        <td class="py-4 align-middle">22/6/2016</td>
-                        <td class="py-4 align-middle">$150.00</td>
-                        <td class="py-4 align-middle"><span class="badge p-2 text-uppercase badge-danger-light">Cancelled</span></td>
-                        <td class="py-4 align-middle"><a class="btn btn-outline-dark btn-sm" href="customer-order.html">View</a></td>
-                        </tr>
+                       
                     </tbody>
                     </table>
                 </div>
@@ -81,10 +61,41 @@ th.py-4.text-uppercase.text-sm {
 </style>
 <script>
 import SiderCliente from '@/components/SidebarCliente.vue';
+import axios from 'axios';
+import moment from 'moment';
+import currency_formatter from 'currency-formatter';
+
 export default {
     name: 'VentaIndexApp',
+    data() {
+        return {
+            ventas: [],
+        }
+    },
     components: {
         SiderCliente
+    },
+    beforeMount() {
+        this.init_ventas();
+    },
+    methods:{
+        init_ventas(){
+            axios.get(this.$url+'/obtener_ventas_cliente',{
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': this.$store.state.token
+                }
+            }).then((result)=>{
+                console.log(result);
+                this.ventas = result.data;
+            });
+        },
+        convertDate(item){
+            return moment(item).format('YYYY/MM/DD');
+        },
+        convertCurrency(number){
+          return currency_formatter.format(number, { code: 'USD' });
+      },
     }
 }
 </script>
