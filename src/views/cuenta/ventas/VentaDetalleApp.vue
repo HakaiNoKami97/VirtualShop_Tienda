@@ -60,31 +60,48 @@
                               </div>
                           </div>
                           <div class="cart-body" style="background: #fff6e8 !important">
-                            <div class="cart-item" v-for="item in detalles">
-                                <div class="row d-flex align-items-center text-center">
-                                <div class="col-6">
-                                    <div class="d-flex align-items-center">
-                                        <router-link :to="{name: 'show-producto',params:{slug: item.producto.slug}}">
-                                            <img class="cart-item-img" :src="$url+'/obtener_portada_producto/'+item.producto.portada" alt="...">
-                                        </router-link>
-                                        <div class="cart-title text-start">
-                                            <router-link class="text-uppercase text-dark" :to="{name: 'show-producto',params:{slug: item.producto.slug}}">
-                                                <strong>{{item.producto.titulo.substr(0,20)}}...</strong>
+                              <div v-for="item in detalles">
+                                  <div class="cart-item" >
+                                    <div class="row d-flex align-items-center text-center">
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center">
+                                            <router-link :to="{name: 'show-producto',params:{slug: item.producto.slug}}">
+                                                <img class="cart-item-img" :src="$url+'/obtener_portada_producto/'+item.producto.portada" alt="...">
                                             </router-link>
-                                            <br>
-                                            <span class="text-muted text-sm">{{item.producto.str_variedad}}: {{item.variedad.variedad}}</span>
+                                            <div class="cart-title text-start">
+                                                <router-link class="text-uppercase text-dark" :to="{name: 'show-producto',params:{slug: item.producto.slug}}">
+                                                    <strong>{{item.producto.titulo.substr(0,20)}}...</strong>
+                                                </router-link>
+                                                <br>
+                                                <span class="text-muted text-sm">{{item.producto.str_variedad}}: {{item.variedad.variedad}}</span>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="col-2">{{convertCurrency(item.producto.precio)}}</div>
+                                    <div class="col-2">
+                                        {{item.cantidad}}
+                                    </div>
+                                    <div class="col-2 text-center">{{convertCurrency(item.producto.precio*item.cantidad)}}</div>
+                          
+                                    </div>
                                 </div>
-                                <div class="col-2">{{convertCurrency(item.producto.precio)}}</div>
-                                <div class="col-2">
-                                    {{item.cantidad}}
+                                <div class="cart-item">
+                                  <div class="row">
+                                    <div class="col-12 mb-3">
+                                      <h6 class="text-uppercase">Comentario:</h6>
+                                    </div>
+                                    <div class="col-4">
+                                      <star-rating :border-width="3" :star-size="35" :border-color="'#fff'" :animate="true" :rating="3"></star-rating>
+                                    </div>
+                                    <div class="col-8 d-flex">
+                                      <input type="text" class="form-control" placeholder="Emite tu comentario del producto">
+                                      <button class="btn btn-primary btn-sm">Enviar</button>
+                                    </div>
+                                  </div>
                                 </div>
-                                <div class="col-2 text-center">{{convertCurrency(item.producto.precio*item.cantidad)}}</div>
-                      
-                                </div>
-                            </div>
+                              </div>
                           </div>
+                          
                         </div>
                       </div>
                       <div class="row my-5">
@@ -146,6 +163,7 @@ import SidebarCliente from '@/components/SidebarCliente.vue';
 import axios from 'axios';
 import moment from 'moment';
 import currency_formatter from 'currency-formatter';
+import StarRating from 'vue-star-rating'
 
 export default {
   name: 'VentaDetalleApp',
@@ -158,7 +176,8 @@ export default {
     }
   },
   components: {
-    SidebarCliente
+    SidebarCliente,
+    StarRating
   },
   beforeMount() {
     this.init_venta();
