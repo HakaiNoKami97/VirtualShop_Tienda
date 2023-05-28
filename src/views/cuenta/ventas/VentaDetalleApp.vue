@@ -65,38 +65,99 @@
                                     <div class="row d-flex align-items-center text-center">
                                     <div class="col-6">
                                         <div class="d-flex align-items-center">
-                                            <router-link :to="{name: 'show-producto',params:{slug: item.producto.slug}}">
-                                                <img class="cart-item-img" :src="$url+'/obtener_portada_producto/'+item.producto.portada" alt="...">
+                                            <router-link :to="{name: 'show-producto',params:{slug: item.detalle.producto.slug}}">
+                                                <img class="cart-item-img" :src="$url+'/obtener_portada_producto/'+item.detalle.producto.portada" alt="...">
                                             </router-link>
                                             <div class="cart-title text-start">
-                                                <router-link class="text-uppercase text-dark" :to="{name: 'show-producto',params:{slug: item.producto.slug}}">
-                                                    <strong>{{item.producto.titulo.substr(0,20)}}...</strong>
+                                                <router-link class="text-uppercase text-dark" :to="{name: 'show-producto',params:{slug: item.detalle.producto.slug}}">
+                                                    <strong>{{item.detalle.producto.titulo.substr(0,20)}}...</strong>
                                                 </router-link>
                                                 <br>
-                                                <span class="text-muted text-sm">{{item.producto.str_variedad}}: {{item.variedad.variedad}}</span>
+                                                <span class="text-muted text-sm">{{item.detalle.producto.str_variedad}}: {{item.detalle.variedad.variedad}}</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-2">{{convertCurrency(item.producto.precio)}}</div>
+                                    <div class="col-2">{{convertCurrency(item.detalle.producto.precio)}}</div>
                                     <div class="col-2">
-                                        {{item.cantidad}}
+                                        {{item.detalle.cantidad}}
                                     </div>
-                                    <div class="col-2 text-center">{{convertCurrency(item.producto.precio*item.cantidad)}}</div>
+                                    <div class="col-2 text-center">{{convertCurrency(item.detalle.producto.precio*item.detalle.cantidad)}}</div>
                           
                                     </div>
                                 </div>
                                 <div class="cart-item">
-                                  <div class="row">
-                                    <div class="col-12 mb-3">
-                                      <h6 class="text-uppercase">Comentario:</h6>
+                                  <div class="row" v-if="item.reviews.length >= 1">
+                                    <div class="col-12">
+                                      <div class="review d-flex" style="padding-bottom: 0px !important;padding-top: 0px !important;">
+                                          
+                                          <div>
+
+                                          <div class="mb-2">
+                                             <div class="d-flex align-items-center">
+                                                <ul class="list-inline me-2 mb-0" v-if="item.reviews[0].estrellas == 1">
+                                                  <li class="list-inline-item me-0">
+                                                    <img src="/assets/icons/estrella.png" style="width:15px" alt="">
+                                                  </li>
+                                                  <li class="list-inline-item me-0"><img src="/assets/icons/estrella-gris.png" style="width:15px" alt=""></li>
+                                                  <li class="list-inline-item me-0"><img src="/assets/icons/estrella-gris.png" style="width:15px" alt=""></li>
+                                                  <li class="list-inline-item me-0"><img src="/assets/icons/estrella-gris.png" style="width:15px" alt=""></li>
+                                                  <li class="list-inline-item me-0"><img src="/assets/icons/estrella-gris.png" style="width:15px" alt=""></li>
+                                                </ul>
+                                                <ul class="list-inline me-2 mb-0" v-if="item.reviews[0].estrellas == 2">
+                                                  <li class="list-inline-item me-0">
+                                                    <img src="/assets/icons/estrella.png" style="width:15px" alt="">
+                                                  </li>
+                                                  <li class="list-inline-item me-0"><img src="/assets/icons/estrella.png" style="width:15px" alt=""></li>
+                                                  <li class="list-inline-item me-0"><img src="/assets/icons/estrella-gris.png" style="width:15px" alt=""></li>
+                                                  <li class="list-inline-item me-0"><img src="/assets/icons/estrella-gris.png" style="width:15px" alt=""></li>
+                                                  <li class="list-inline-item me-0"><img src="/assets/icons/estrella-gris.png" style="width:15px" alt=""></li>
+                                                </ul>
+                                                <ul class="list-inline me-2 mb-0" v-if="item.reviews[0].estrellas == 3">
+                                                  <li class="list-inline-item me-0">
+                                                    <img src="/assets/icons/estrella.png" style="width:15px" alt="">
+                                                  </li>
+                                                  <li class="list-inline-item me-0"><img src="/assets/icons/estrella.png" style="width:15px" alt=""></li>
+                                                  <li class="list-inline-item me-0"><img src="/assets/icons/estrella.png" style="width:15px" alt=""></li>
+                                                  <li class="list-inline-item me-0"><img src="/assets/icons/estrella-gris.png" style="width:15px" alt=""></li>
+                                                  <li class="list-inline-item me-0"><img src="/assets/icons/estrella-gris.png" style="width:15px" alt=""></li>
+                                                </ul>
+                                                <ul class="list-inline me-2 mb-0" v-if="item.reviews[0].estrellas == 4">
+                                                  <li class="list-inline-item me-0">
+                                                    <img src="/assets/icons/estrella.png" style="width:15px" alt="">
+                                                  </li>
+                                                  <li class="list-inline-item me-0"><img src="/assets/icons/estrella.png" style="width:15px" alt=""></li>
+                                                  <li class="list-inline-item me-0"><img src="/assets/icons/estrella.png" style="width:15px" alt=""></li>
+                                                  <li class="list-inline-item me-0"><img src="/assets/icons/estrella.png" style="width:15px" alt=""></li>
+                                                  <li class="list-inline-item me-0"><img src="/assets/icons/estrella-gris.png" style="width:15px" alt=""></li>
+                                                </ul>
+                                                <ul class="list-inline me-2 mb-0" v-if="item.reviews[0].estrellas == 5">
+                                                  <li class="list-inline-item me-0">
+                                                    <img src="/assets/icons/estrella.png" style="width:15px" alt="">
+                                                  </li>
+                                                  <li class="list-inline-item me-0"><img src="/assets/icons/estrella.png" style="width:15px" alt=""></li>
+                                                  <li class="list-inline-item me-0"><img src="/assets/icons/estrella.png" style="width:15px" alt=""></li>
+                                                  <li class="list-inline-item me-0"><img src="/assets/icons/estrella.png" style="width:15px" alt=""></li>
+                                                  <li class="list-inline-item me-0"><img src="/assets/icons/estrella.png" style="width:15px" alt=""></li>
+                                                </ul>
+                                               
+                                              </div>
+                                          </div>
+                                          <p class="text-muted">{{item.reviews[0].comentario}}</p>
+                                          </div>
+                                      </div>
                                     </div>
-                                    <div class="col-4">
-                                      <star-rating :border-width="3" :star-size="35" :border-color="'#fff'" :animate="true" :rating="3" v-model="review.estrellas"></star-rating>
-                                    </div>
-                                    <div class="col-8 d-flex">
-                                      <input type="text" class="form-control" placeholder="Emite tu comentario del producto" v-model="review.comentario">
-                                      <button class="btn btn-primary btn-sm" v-on:click="enviar_review(item.producto._id)">Enviar</button>
-                                    </div>
+                                  </div>
+                                  <div class="row"  v-if="item.reviews.length == 0">
+                                     <div class="col-12 mb-3">
+                                        <h6 class="text-uppercase">Comentario:</h6>
+                                      </div>
+                                      <div class="col-4">
+                                        <star-rating :border-width="3" :star-size="35" :border-color="'#fff'" :animate="true" :rating="3" v-model="review.estrellas"></star-rating>
+                                      </div>
+                                      <div class="col-8 d-flex">
+                                        <input type="text" class="form-control" placeholder="Emite tu comentario del producto" v-model="review.comentario">
+                                        <button class="btn btn-primary btn-sm" v-on:click="enviar_review(item.detalle.producto._id)">Enviar</button>
+                                      </div>
                                   </div>
                                 </div>
                               </div>
